@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Loupe Agent",
   "main": "dist/loupe.agent.js",
-  "types": "lib/loupe.agent.d.ts",
+  "types": "dist/loupe.agent.d.ts",
   "scripts": {
     "test": "jasmine-ts --config=spec/support/jasmine.json",
     "test:debug": "npm run build && node --inspect-brk node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=spec/support/jasmine.json",
@@ -11,11 +11,11 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
+  "private": false,
   "keywords": [],
   "author": "Gbraltar Software",
   "license": "ISC",
@@ -43,6 +43,6 @@
     "stacktrace-js": "^2.0.2"
   },
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ]
 }
