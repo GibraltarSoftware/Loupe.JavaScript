@@ -1,0 +1,165 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "loupe-agent-angular": {
+      "projectType": "library",
+      "root": "projects/loupe-agent-angular",
+      "sourceRoot": "projects/loupe-agent-angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/loupe-agent-angular/tsconfig.lib.json",
+            "project": "projects/loupe-agent-angular/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/loupe-agent-angular/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/loupe-agent-angular/src/test.ts",
+            "tsConfig": "projects/loupe-agent-angular/tsconfig.spec.json",
+            "karmaConfig": "projects/loupe-agent-angular/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/loupe-agent-angular/tsconfig.lib.json",
+              "projects/loupe-agent-angular/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "loupe-agent-angular-client": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/loupe-agent-angular-client",
+      "sourceRoot": "projects/loupe-agent-angular-client/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/loupe-agent-angular-client",
+            "index": "projects/loupe-agent-angular-client/src/index.html",
+            "main": "projects/loupe-agent-angular-client/src/main.ts",
+            "polyfills": "projects/loupe-agent-angular-client/src/polyfills.ts",
+            "tsConfig": "projects/loupe-agent-angular-client/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/loupe-agent-angular-client/src/favicon.ico",
+              "projects/loupe-agent-angular-client/src/assets"
+            ],
+            "styles": [
+              "projects/loupe-agent-angular-client/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/loupe-agent-angular-client/src/environments/environment.ts",
+                  "with": "projects/loupe-agent-angular-client/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "loupe-agent-angular-client:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "loupe-agent-angular-client:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "loupe-agent-angular-client:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/loupe-agent-angular-client/src/test.ts",
+            "polyfills": "projects/loupe-agent-angular-client/src/polyfills.ts",
+            "tsConfig": "projects/loupe-agent-angular-client/tsconfig.spec.json",
+            "karmaConfig": "projects/loupe-agent-angular-client/karma.conf.js",
+            "assets": [
+              "projects/loupe-agent-angular-client/src/favicon.ico",
+              "projects/loupe-agent-angular-client/src/assets"
+            ],
+            "styles": [
+              "projects/loupe-agent-angular-client/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/loupe-agent-angular-client/tsconfig.app.json",
+              "projects/loupe-agent-angular-client/tsconfig.spec.json",
+              "projects/loupe-agent-angular-client/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/loupe-agent-angular-client/e2e/protractor.conf.js",
+            "devServerTarget": "loupe-agent-angular-client:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "loupe-agent-angular-client:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "loupe-agent-angular"
+}
