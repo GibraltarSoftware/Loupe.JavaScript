@@ -150,7 +150,6 @@ export class LoupeAgent {
     details?: any | null,
     methodSourceInfo?: MethodSourceInfo | null,
   ): void {
-    console.log("writing", caption);
     exception = this.sanitiseArgument(exception);
     details = this.sanitiseArgument(details);
 
@@ -170,10 +169,8 @@ export class LoupeAgent {
   }
 
   public addSendMessageCommandToEventQueue(): void {
-    console.log("addSendMessageCommandToEventQueue: adding to queue");
     // check for unsent messages on start up
     if ((this.storageAvailable && localStorage.length) || this.messageStorage.length) {
-      console.log("addSendMessageCommandToEventQueue: setting timer to log");
       setTimeout(() => this.logMessageToServer(), this.messageInterval);
     }
   }
@@ -877,7 +874,6 @@ export class LoupeAgent {
   };
 
   private logMessageToServer(): boolean {
-    console.log("logMessageToServer");
     const { messages, keys, moreMessagesInStorage } = this.getMessagesToSend();
 
     // no messages so exit
@@ -929,7 +925,6 @@ export class LoupeAgent {
   }
 
   private sendMessageToServer(logMessage: any, keys: string[], moreMessages: boolean, updateMessageInterval: any): boolean {
-    console.log("sendMessageToServer");
     try {
       let origin = this.corsOrigin || this.window.location.origin;
       origin = this.stripTrailingSlash(origin);
@@ -953,9 +948,7 @@ export class LoupeAgent {
         }
       };
 
-      console.log("sendMessageToServer - sending");
       xhr.send(JSON.stringify(logMessage));
-      console.log("sendMessageToServer - sent");
       return true;
     } catch (e) {
       this.consoleLog('Loupe JavaScript Logger: Exception while attempting to log');
