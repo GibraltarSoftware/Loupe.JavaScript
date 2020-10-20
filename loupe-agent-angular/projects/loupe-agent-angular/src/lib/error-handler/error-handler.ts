@@ -1,6 +1,7 @@
-import { ErrorHandler } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { LoupeAgentAngularService } from '../loupe-agent-angular.service';
 
+@Injectable()
 export class MyErrorHandler extends ErrorHandler {
   
   constructor(

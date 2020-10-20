@@ -1,4 +1,3 @@
 export class Header {
-    public constructor(public name: string, public value: string) {
-    }
+  public constructor(public name: string, public value: string) {}
 }
