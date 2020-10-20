@@ -7,23 +7,11 @@
 {
   "files": [],
   "references": [
-    {
-      "path": "./projects/loupe-agent-angular/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/loupe-agent-angular/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/loupe-agent-angulular-client/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/loupe-agent-angulular-client/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/loupe-agent-angular-client/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/loupe-agent-angular-client/tsconfig.spec.json"
-    }
-]
+      {
+        "path": "./projects/loupe-agent-angular/tsconfig.lib.json"
+      },
+      {
+        "path": "./projects/loupe-agent-angular/tsconfig.spec.json"
+      }
+  ]
 }

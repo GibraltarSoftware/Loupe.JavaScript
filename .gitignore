@@ -6,7 +6,6 @@
 /*/**/dist
 /tmp
 /out-tsc
-/lib
 
 # IDE - VSCode
 .vscode/*
@@ -18,4 +17,3 @@
 # System Files
 .DS_Store
 Thumbs.db
-lib/
