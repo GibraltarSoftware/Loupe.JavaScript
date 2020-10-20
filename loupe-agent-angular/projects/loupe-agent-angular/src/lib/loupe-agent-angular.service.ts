@@ -7,7 +7,7 @@ import { MethodSourceInfo } from 'loupe-agent/dist/MethodSourceInfo';
 })
 export class LoupeAgentAngularService {
 
-  loupe: LoupeAgent;
+  private loupe: LoupeAgent;
 
   constructor(
     private readonly window: Window,
