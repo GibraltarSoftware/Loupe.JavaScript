@@ -18,69 +18,163 @@ describe('LoupeAgentAngularService', () => {
     expect(service.loupe).toBeTruthy();
   });
 
-  describe('when loupe.information', () => {
+  describe('when loupe(...)', () => {
     it('should make call to loupe.information', () => {
       // Arrange
       spyOn(service.loupe, 'information');
+      const category = "aaaaa";
+      const caption = "bbbbb";
+      const description = "ccccc";
+      const parameters = undefined;
+      const exception = undefined;
+      const details = undefined;
+      const methodSourceInfo = undefined;
       
       // Act
-      service.information("1111", "1111", "1111");
+      service.information(
+        category,
+        caption, 
+        description
+      );
 
       // Assert
-      expect(service.loupe.information).toHaveBeenCalled();
+      expect(service.loupe.information).toHaveBeenCalledWith(
+        category, 
+        caption,
+        description,
+        parameters,
+        exception,
+        details,
+        methodSourceInfo
+      );
     });
   });
 
-  describe('when loupe.verbose', () => {
+  describe('when verbose(...)', () => {
     it('should make call to loupe.verbose', () => {
       // Arrange
       spyOn(service.loupe, 'verbose');
+      const category = "aaaaa";
+      const caption = "bbbbb";
+      const description = "ccccc";
+      const parameters = undefined;
+      const exception = undefined;
+      const details = undefined;
+      const methodSourceInfo = undefined;
       
       // Act
-      service.verbose("1111", "1111", "1111");
+      service.verbose(
+        category,
+        caption, 
+        description
+      );
 
       // Assert
-      expect(service.loupe.verbose).toHaveBeenCalled();
+      expect(service.loupe.verbose).toHaveBeenCalledWith(
+        category, 
+        caption,
+        description,
+        parameters,
+        exception,
+        details,
+        methodSourceInfo
+      );
     });
   });
 
-  describe('when loupe.warning', () => {
+  describe('when warning(...)', () => {
     it('should make call to loupe.warning', () => {
       // Arrange
       spyOn(service.loupe, 'warning');
-      
+      const category = "aaaaa";
+      const caption = "bbbbb";
+      const description = "ccccc";
+      const parameters = undefined;
+      const exception = undefined;
+      const details = undefined;
+      const methodSourceInfo = undefined;
+
       // Act
-      service.warning("1111", "1111", "1111");
+      service.warning(
+        category,
+        caption, 
+        description
+      );
 
       // Assert
-      expect(service.loupe.warning).toHaveBeenCalled();
+      expect(service.loupe.warning).toHaveBeenCalledWith(
+        category, 
+        caption,
+        description,
+        parameters,
+        exception,
+        details,
+        methodSourceInfo
+      );
     });
   });
 
-  describe('when loupe.error', () => {
+  describe('when error(...)', () => {
     it('should make call to loupe.error', () => {
       // Arrange
       spyOn(service.loupe, 'error');
+      const category = "aaaaa";
+      const caption = "bbbbb";
+      const description = "ccccc";
+      const parameters = undefined;
+      const exception = undefined;
+      const details = undefined;
+      const methodSourceInfo = undefined;
       
       // Act
-      service.error("1111", "1111", "1111");
+      service.error(
+        category,
+        caption, 
+        description
+      );
 
       // Assert
-      expect(service.loupe.error).toHaveBeenCalled();
+      expect(service.loupe.error).toHaveBeenCalledWith(
+        category, 
+        caption,
+        description,
+        parameters,
+        exception,
+        details,
+        methodSourceInfo
+      );
     });
   });
 
-  describe('when loupe.critical', () => {
+  describe('when critical(...)', () => {
     it('should make call to loupe.critical', () => {
       // Arrange
       spyOn(service.loupe, 'critical');
+      const category = "aaaaa";
+      const caption = "bbbbb";
+      const description = "ccccc";
+      const parameters = undefined;
+      const exception = undefined;
+      const details = undefined;
+      const methodSourceInfo = undefined;
       
       // Act
-      service.critical("1111", "1111", "1111");
+      service.critical(
+        category,
+        caption, 
+        description
+      );
 
       // Assert
-      expect(service.loupe.critical).toHaveBeenCalled();
+      expect(service.loupe.critical).toHaveBeenCalledWith(
+        category, 
+        caption,
+        description,
+        parameters,
+        exception,
+        details,
+        methodSourceInfo
+      );
     });
   });
-  
 });
