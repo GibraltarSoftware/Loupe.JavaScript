@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoupeAgent } from 'loupe-agent';
+import { LoupeAgent, Header } from 'loupe-agent';
 import { MethodSourceInfo } from 'loupe-agent/dist/MethodSourceInfo';
 
 @Injectable({
@@ -19,6 +19,14 @@ export class LoupeAgentAngularService {
 
   setCORSOrigin(origin: string) {
     this.loupe.setCORSOrigin(origin);
+  }
+
+  setSessionId(id: string) {
+    this.loupe.setSessionId(id);
+  }
+  
+  setAuthorizationHeader(header: Header) {
+    this.loupe.setAuthorizationHeader(header);
   }
   
   information(
