@@ -25,8 +25,7 @@ export class LoupeAgent {
   private globalKeyList: string[] = [];
   private authHeader!: Header;
 
-  constructor(private readonly window: any, private readonly document: any) {
-    // TODO - this requirement of window needs to be abstracted out, since it's not available in node
+  constructor(private readonly window: Window, private readonly document: Document) {
     if (typeof this.window !== 'undefined' && typeof this.window.onerror !== 'undefined') {
       this.existingOnError = this.window.onerror;
       this.setUpOnError(this.window);
@@ -244,17 +243,13 @@ export class LoupeAgent {
     }
 
     this.window.onerror = (
-      msg: string | Event,
-      url: string | undefined,
-      line: number | undefined,
-      column: number | undefined,
-      error: Error | undefined,
+      event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error
     ) => {
       if (this.existingOnError) {
-        this.existingOnError.apply(this, [msg, url, line, column, error]);
+        this.existingOnError(event, source, lineno, colno, error);
       }
 
-      setTimeout(() => this.logError, 10, msg, url, line, column, error);
+      setTimeout(() => this.logError(event, source, lineno, colno, error), 10);
 
       // if we want to propagate the error the browser needs
       // us to return false but logically we want to state we
@@ -276,7 +271,7 @@ export class LoupeAgent {
     return platformDetails;
   }
 
-  private getStackTrace(error: any, errorMessage: string): any[] {
+  private getStackTrace(error: any, errorMessage: any): any[] {
     if (typeof error === 'undefined' || error === null || !error.stack) {
       return this.createStackFromMessage(errorMessage);
     }
@@ -349,7 +344,7 @@ export class LoupeAgent {
     return position;
   }
 
-  private logError(msg: string, url: string, line: number, column: number, error: any): boolean {
+  private logError(msg: Event | string, url?: string, line?: number, column?: number, error?: Error): boolean {
     let errorName = '';
 
     if (error) {
@@ -896,7 +891,7 @@ export class LoupeAgent {
       },
     };
 
-    const updateMessageInterval = this.debounce(this.setMessageInterval, 500);
+    const updateMessageInterval = this.debounce(() => this.setMessageInterval, 500);
 
     return this.sendMessageToServer(logMessage, keys, moreMessagesInStorage, updateMessageInterval);
   }
@@ -997,12 +992,6 @@ export class LoupeAgent {
   }
 
   private consoleLog(msg: any): void {
-    if (typeof this.window === 'undefined') {
-      return;
-    }
-
-    const console = this.window.console;
-
     // tslint:disable: no-console
     if (console && typeof console.log === 'function') {
       console.log(msg);
