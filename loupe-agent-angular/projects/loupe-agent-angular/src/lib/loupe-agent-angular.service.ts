@@ -15,7 +15,6 @@ export class LoupeAgentAngularService {
     private readonly document: Document
   ) { 
     this.loupe = new LoupeAgent(this.window, this.document);
-    this.loupe.setCORSOrigin('http://localhost:3500/');
   }
 
   setCORSOrigin(origin: string) {
