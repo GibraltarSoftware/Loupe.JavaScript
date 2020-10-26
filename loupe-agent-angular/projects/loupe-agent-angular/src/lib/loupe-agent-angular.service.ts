@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoupeAgent, Header } from 'loupe-agent';
+import { LoupeAgent } from 'loupe-agent/dist/loupe.agent';
+import { Header } from 'loupe-agent/dist/header';
 import { MethodSourceInfo } from 'loupe-agent/dist/MethodSourceInfo';
 
 @Injectable({
