@@ -562,7 +562,7 @@ export class LoupeAgent {
       error.columnNumber || null,
       error.lineNumber || null,
       error.message,
-      error.stackTrace,
+      error.stackTrace || error.stack || null,
       this.window.location.href,
     );
   }
