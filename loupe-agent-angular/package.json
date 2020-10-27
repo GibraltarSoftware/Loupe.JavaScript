@@ -1,6 +1,20 @@
 {
   "name": "loupe-agent-angular",
   "version": "1.2.0",
+  "description": "Loupe Agent for Angular",
+  "keywords": ["Gibraltar", "Loupe", "TypeScript", "Angular"],
+  "homepage": "https://github.com/GibraltarSoftware/Loupe.Agent.Web",
+  "author": "Gibraltar Software",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GibraltarSoftware/Loupe.Agent.Web/issues",
+    "email": "support@gibraltarsoftware.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GibraltarSoftware/Loupe.Agent.Web"
+  },
+  "private": false,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +23,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": false,
   "dependencies": {
     "@angular/animations": "~10.0.6",
     "@angular/common": "~10.0.6",

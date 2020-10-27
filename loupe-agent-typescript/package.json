@@ -1,7 +1,20 @@
 {
   "name": "loupe-agent",
   "version": "1.2.0",
-  "description": "Loupe Agent",
+  "description": "Loupe Agent for Web clients",
+  "keywords": ["Gibraltar", "Loupe", "TypeScript"],
+  "homepage": "https://github.com/GibraltarSoftware/Loupe.Agent.Web",
+  "author": "Gibraltar Software",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GibraltarSoftware/Loupe.Agent.Web/issues",
+    "email": "support@gibraltarsoftware.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GibraltarSoftware/Loupe.Agent.Web"
+  },
+  "private": false,
   "main": "dist/loupe.agent.js",
   "types": "dist/loupe.agent.d.ts",
   "scripts": {
@@ -15,10 +28,6 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "private": false,
-  "keywords": [],
-  "author": "Gbraltar Software",
-  "license": "ISC",
   "devDependencies": {
     "@types/jasmine": "^3.5.11",
     "jasmine": "^3.6.2",
