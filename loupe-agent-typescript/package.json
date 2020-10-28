@@ -2,7 +2,11 @@
   "name": "loupe-agent",
   "version": "1.2.0",
   "description": "Loupe Agent for Web clients",
-  "keywords": ["Gibraltar", "Loupe", "TypeScript"],
+  "keywords": [
+    "Gibraltar",
+    "Loupe",
+    "TypeScript"
+  ],
   "homepage": "https://github.com/GibraltarSoftware/Loupe.Agent.Web",
   "author": "Gibraltar Software",
   "license": "ISC",
