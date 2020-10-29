@@ -1,3 +1,5 @@
+/** Severity of the log message
+ */
 export enum LogMessageSeverity {
   none = 0,
   critical = 1,

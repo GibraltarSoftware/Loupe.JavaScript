@@ -8,6 +8,9 @@ import { LocalStorageMessage } from './localStorageMessage';
 import { LogMessageSeverity } from './LogMessageSeverity';
 import { MethodSourceInfo } from './MethodSourceInfo';
 
+/**
+ * Loupe agent for logging from client web applications
+ */
 export class LoupeAgent {
   public propagateError = false;
 
@@ -25,6 +28,11 @@ export class LoupeAgent {
   private globalKeyList: string[] = [];
   private authHeader!: Header;
 
+  /**
+   * Creates a new instance of the Loupe logger
+   * @param window - The global Window object
+   * @param document - The global document object
+   */
   constructor(private readonly window: Window, private readonly document: Document) {
     if (typeof this.window !== 'undefined' && typeof this.window.onerror !== 'undefined') {
       this.existingOnError = this.window.onerror;
@@ -36,6 +44,16 @@ export class LoupeAgent {
     this.addSendMessageCommandToEventQueue();
   }
 
+  /**
+   * Logs a verbose message
+   * @param category - The message category
+   * @param caption - The message caption
+   * @param description - The message description
+   * @param parameters - Optional. An array of parameters for a formatted description
+   * @param exception - Optional. An exception for the message
+   * @param details - Optional. A string, or JSON object containing additional details to be logged
+   * @param methodSourceInfo - Optiona. The source location details
+   */
   public verbose(
     category: string,
     caption: string,
@@ -56,6 +74,16 @@ export class LoupeAgent {
       methodSourceInfo,
     );
   }
+  /**
+   * Logs a information message
+   * @param category - The message category
+   * @param caption - The message caption
+   * @param description - The message description
+   * @param parameters - Optional. An array of parameters for a formatted description
+   * @param exception - Optional. An exception for the message
+   * @param details - Optional. A string, or JSON object containing additional details to be logged
+   * @param methodSourceInfo - Optiona. The source location details
+   */
   public information(
     category: string,
     caption: string,
@@ -76,6 +104,16 @@ export class LoupeAgent {
       methodSourceInfo,
     );
   }
+  /**
+   * Logs a warning message
+   * @param category - The message category
+   * @param caption - The message caption
+   * @param description - The message description
+   * @param parameters - Optional. An array of parameters for a formatted description
+   * @param exception - Optional. An exception for the message
+   * @param details - Optional. A string, or JSON object containing additional details to be logged
+   * @param methodSourceInfo - Optiona. The source location details
+   */
   public warning(
     category: string,
     caption: string,
@@ -96,6 +134,16 @@ export class LoupeAgent {
       methodSourceInfo,
     );
   }
+  /**
+   * Logs an error message
+   * @param category - The message category
+   * @param caption - The message caption
+   * @param description - The message description
+   * @param parameters - Optional. An array of parameters for a formatted description
+   * @param exception - Optional. An exception for the message
+   * @param details - Optional. A string, or JSON object containing additional details to be logged
+   * @param methodSourceInfo - Optiona. The source location details
+   */
   public error(
     category: string,
     caption: string,
@@ -116,6 +164,16 @@ export class LoupeAgent {
       methodSourceInfo,
     );
   }
+  /**
+   * Logs a critical message
+   * @param category - The message category
+   * @param caption - The message caption
+   * @param description - The message description
+   * @param parameters - Optional. An array of parameters for a formatted description
+   * @param exception - Optional. An exception for the message
+   * @param details - Optional. A string, or JSON object containing additional details to be logged
+   * @param methodSourceInfo - Optiona. The source location details
+   */
   public critical(
     category: string,
     caption: string,
@@ -137,6 +195,17 @@ export class LoupeAgent {
     );
   }
 
+    /**
+   * Logs a message
+   * @param severity - The message severity
+   * @param category - The message category
+   * @param caption - The message caption
+   * @param description - The message description
+   * @param parameters - Optional. An array of parameters for a formatted description
+   * @param exception - Optional. An exception for the message
+   * @param details - Optional. A string, or JSON object containing additional details to be logged
+   * @param methodSourceInfo - Optiona. The source location details
+   */
   public write(
     severity: LogMessageSeverity,
     category: string,
@@ -165,6 +234,9 @@ export class LoupeAgent {
     this.addSendMessageCommandToEventQueue();
   }
 
+  /**
+   * Sends any messages stored in Local Storage to the server
+   */
   public addSendMessageCommandToEventQueue(): void {
     // check for unsent messages on start up
     if ((this.storageAvailable && localStorage.length) || this.messageStorage.length) {
@@ -172,14 +244,26 @@ export class LoupeAgent {
     }
   }
 
+  /**
+   * Sets the ID of the session
+   * @param value The ID of the session
+   */
   public setSessionId(value: string): void {
     this.sessionId = value;
   }
 
+  /**
+   * Sets the server URI for logging
+   * @param value The base URI hosting the server logging component
+   */
   public setCORSOrigin(value: string | null): void {
     this.corsOrigin = value;
   }
 
+  /**
+   * Sets an authorization header to be used on all logging requests
+   * @param header The authorization header
+   */
   public setAuthorizationHeader(header: Header): void {
     if (header) {
       if (header.name && header.value) {
@@ -194,10 +278,17 @@ export class LoupeAgent {
     }
   }
 
+  /**
+   * Gets the client session ID
+   */
   public clientSessionHeader(): Header {
     return new Header('loupe-agent-sessionId', this.agentSessionId);
   }
 
+  /**
+   * Resets the interval used when bulk sending messages after a failure
+   * @param interval The number of milliseconds. Defaults, and cannot be below, 10.
+   */
   public resetMessageInterval(interval: number): void {
     let newInterval = interval || 10;
 
