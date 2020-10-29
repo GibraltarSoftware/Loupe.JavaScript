@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Loupe.Agent.Core.Services</name>
+    </assembly>
+    <members>
+        <member name="T:Loupe.Agent.Core.Services.ILoupeAgentBuilder">
+            <summary>
+            Interface for the fluent Loupe Agent builder.
+            </summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ILoupeAgentBuilder.AddListener``1">
+            <summary>
+            Adds a <see cref="T:System.Diagnostics.DiagnosticSource"/> listener.
+            </summary>
+            <typeparam name="T">The type of the listener, which must implement <see cref="T:Loupe.Agent.Core.Services.ILoupeDiagnosticListener"/>.</typeparam>
+            <returns>The builder instance.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ILoupeAgentBuilder.AddMonitor``1">
+            <summary>
+            Adds a <see cref="T:Gibraltar.Monitor.ILoupeMonitor" /> monitor.
+            </summary>
+            <typeparam name="T">The type of the monitor, which must implement <see cref="T:Gibraltar.Monitor.ILoupeMonitor"/>.</typeparam>
+            <returns>The builder instance.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ILoupeAgentBuilder.AddFilter``1">
+            <summary>
+            Adds a <see cref="T:Gibraltar.Monitor.ILoupeFilter" />  filter.
+            </summary>
+            <typeparam name="T">The type of the filter, which must implement <see cref="T:Gibraltar.Monitor.ILoupeFilter" />.</typeparam>
+            <returns>The builder instance.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ILoupeAgentBuilder.AddPrincipalResolver``1">
+            <summary>
+            Specify the <see cref="T:System.Security.Principal.IPrincipal"/> resolver for the current application.
+            </summary>
+            <typeparam name="T">The type of the resolver, which must implement <see cref="T:Gibraltar.Monitor.IPrincipalResolver" />.</typeparam>
+            <returns>The builder instance.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ILoupeAgentBuilder.AddPrincipalResolver(System.Func{System.Security.Principal.IPrincipal})">
+            <summary>
+            Specify the <see cref="T:System.Security.Principal.IPrincipal"/> resolver function for the current application.
+            </summary>
+            <returns>The builder instance.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ILoupeAgentBuilder.AddApplicationUserProvider``1">
+            <summary>
+            Specify the Application User Provider for the current application.
+            </summary>
+            <typeparam name="T">The type of the provider, which must implement <see cref="T:Gibraltar.Monitor.IApplicationUserProvider" />.</typeparam>
+            <returns>The builder instance.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ILoupeAgentBuilder.AddApplicationUserProvider(System.Func{System.Security.Principal.IPrincipal,System.Lazy{Gibraltar.Monitor.ApplicationUser},System.Boolean})">
+            <summary>
+            Specify the Application User Provider function for the current application.
+            </summary>
+            <returns>The builder instance.</returns>
+        </member>
+        <member name="T:Loupe.Agent.Core.Services.ILoupeDiagnosticListener">
+            <summary>
+            Interface to be implemented by any <see cref="T:System.Diagnostics.DiagnosticSource"/> listeners.
+            </summary>
+        </member>
+        <member name="P:Loupe.Agent.Core.Services.ILoupeDiagnosticListener.Name">
+            <summary>
+            Returns the name of the <see cref="T:System.Diagnostics.DiagnosticSource"/> this implementation targets.
+            </summary>
+        </member>
+        <member name="T:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder">
+            <summary>Default implementation of <see cref="T:Loupe.Agent.Core.Services.ILoupeAgentBuilder"/>.</summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>Initializes a new instance of the <see cref="T:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder"/> class.</summary>
+            <param name="services">The services container.</param>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.AddListener``1">
+            <inheritdoc />
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.AddMonitor``1">
+            <inheritdoc />
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.AddFilter``1">
+            <inheritdoc />
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.AddPrincipalResolver``1">
+            <inheritdoc />
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.AddPrincipalResolver(System.Func{System.Security.Principal.IPrincipal})">
+            <inheritdoc />
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.AddApplicationUserProvider``1">
+            <inheritdoc />
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.Internal.LoupeAgentServicesCollectionBuilder.AddApplicationUserProvider(System.Func{System.Security.Principal.IPrincipal,System.Lazy{Gibraltar.Monitor.ApplicationUser},System.Boolean})">
+            <inheritdoc />
+        </member>
+        <member name="T:Loupe.Agent.Core.Services.LoupeAgent">
+            <summary>
+            The main Loupe agent.
+            </summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgent.#ctor(Microsoft.Extensions.Options.IOptions{Loupe.Configuration.AgentConfiguration},System.IServiceProvider,Microsoft.Extensions.Hosting.IHostApplicationLifetime)">
+            <summary>Initializes a new instance of the <see cref="T:Loupe.Agent.Core.Services.LoupeAgent"/> class.</summary>
+            <param name="options"><see cref="T:Loupe.Configuration.AgentConfiguration"/> options.</param>
+            <param name="serviceProvider">The DI service provider.</param>
+            <param name="applicationLifetime">The application lifetime object.</param>
+            <exception cref="T:System.ArgumentNullException">callback
+            or
+            configuration
+            or
+            hostingEnvironment</exception>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgent.Start">
+            <summary>Starts this Agent instance.</summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgent.End(Loupe.Extensibility.Data.SessionStatus,System.String)">
+            <summary>Stops this Agent instance.</summary>
+            <param name="status">The session status.</param>
+            <param name="reason">The reason.</param>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgent.Dispose">
+            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        </member>
+        <member name="P:Loupe.Agent.Core.Services.LoupeAgent.ApplicationName">
+            <summary>Gets the name of the application.</summary>
+            <value>The name of the application.</value>
+        </member>
+        <member name="T:Loupe.Agent.Core.Services.LoupeAgentConfigurationCallback">
+            <summary>Wraps a configuration Action delegate so it can be injected.</summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgentConfigurationCallback.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Loupe.Agent.Core.Services.LoupeAgentConfigurationCallback"/> class.
+            </summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgentConfigurationCallback.#ctor(System.Action{Loupe.Configuration.AgentConfiguration})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Loupe.Agent.Core.Services.LoupeAgentConfigurationCallback"/> class.
+            </summary>
+            <param name="callback">The callback.</param>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgentConfigurationCallback.Invoke(Loupe.Configuration.AgentConfiguration)">
+            <summary>
+            Invokes the callback with the specified <see cref="T:Loupe.Configuration.AgentConfiguration"/>.
+            </summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="T:Loupe.Agent.Core.Services.LoupeAgentService">
+            <summary>
+            An implementation of <see cref="T:Microsoft.Extensions.Hosting.IHostedService"/> that exists to force the creation of a <see cref="T:Loupe.Agent.Core.Services.LoupeAgent"/>
+            by the Dependency Injection container and to hold the reference until the application ends.
+            </summary>
+            <seealso cref="T:Microsoft.Extensions.Hosting.IHostedService" />
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgentService.#ctor(Loupe.Agent.Core.Services.LoupeAgent)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Loupe.Agent.Core.Services.LoupeAgentService"/> class.
+            </summary>
+            <param name="agent">The agent.</param>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgentService.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggered when the application host is ready to start the service.
+            </summary>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> to abort the call.</param>
+            <returns>A completed <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeAgentService.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggered when the application host is performing a graceful shutdown.
+            </summary>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> to abort the call.</param>
+            <returns>A completed <see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="T:Loupe.Agent.Core.Services.LoupeDiagnosticListener">
+            <summary>
+            The master Diagnostic listener that will subscribe any registered listeners to the relevant <see cref="T:System.Diagnostics.DiagnosticSource"/>.
+            </summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeDiagnosticListener.Add(Loupe.Agent.Core.Services.ILoupeDiagnosticListener)">
+            <summary>
+            Adds the specified listener.
+            </summary>
+            <param name="listener">The listener.</param>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeDiagnosticListener.Subscribe">
+            <summary>
+            Subscribes this instance to the <see cref="P:System.Diagnostics.DiagnosticListener.AllListeners"/> observable.
+            </summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeDiagnosticListener.OnCompleted">
+            <summary>
+            Notifies the observer that the provider has finished sending push-based notifications.
+            </summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeDiagnosticListener.OnError(System.Exception)">
+            <summary>
+            Notifies the observer that the provider has experienced an error condition.
+            </summary>
+            <param name="error">An object that provides additional information about the error.</param>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeDiagnosticListener.OnNext(System.Diagnostics.DiagnosticListener)">
+            <summary>
+            Provides the observer with new data.
+            </summary>
+            <param name="value">The current notification information.</param>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.LoupeDiagnosticListener.Dispose">
+            <summary>
+            Unsubscribes any existing listeners.
+            </summary>
+        </member>
+        <member name="T:Loupe.Agent.Core.Services.ServicesExtensions">
+            <summary>
+            Extension methods for <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ServicesExtensions.AddLoupe(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Loupe.Configuration.AgentConfiguration})">
+            <summary>
+            Adds Loupe to the services with a configuration callback.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</param>
+            <param name="configure">A callback to be invoked after configuration is loaded.</param>
+            <returns>An instance of <see cref="T:Loupe.Agent.Core.Services.ILoupeAgentBuilder"/> for further customization.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ServicesExtensions.AddLoupe(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds Loupe to the services with a configuration callback.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</param>
+            <returns>An instance of <see cref="T:Loupe.Agent.Core.Services.ILoupeAgentBuilder"/> for further customization.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ServicesExtensions.AddLoupe(Microsoft.Extensions.Hosting.IHostBuilder,System.Action{Loupe.Configuration.AgentConfiguration})">
+            <summary>
+            Adds the Loupe provider for <c>Microsoft.Extensions.Logging</c>.
+            </summary>
+            <param name="builder">The <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/>.</param>
+            <param name="configure">Optional.  An Agent configuration delegate</param>
+            <returns>The <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/>.</returns>
+        </member>
+        <member name="M:Loupe.Agent.Core.Services.ServicesExtensions.AddLoupe(Microsoft.Extensions.Hosting.IHostBuilder,System.Action{Loupe.Agent.Core.Services.ILoupeAgentBuilder},System.Action{Loupe.Configuration.AgentConfiguration})">
+            <summary>
+            Adds the Loupe provider for <c>Microsoft.Extensions.Logging</c>.
+            </summary>
+            <param name="builder">The <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/>.</param>
+            <param name="agentBuilder">A Loupe Agent builder delegate</param>
+            <param name="configure">Optional.  An Agent configuration delegate</param>
+            <returns>The <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/>.</returns>
+        </member>
+    </members>
+</doc>
