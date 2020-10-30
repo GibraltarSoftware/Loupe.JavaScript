@@ -3,7 +3,6 @@ import { NavigationStart, Router, RouterEvent } from '@angular/router';
 import { LoupeService } from 'loupe-angular/dist/loupe-angular';
 import { filter } from 'rxjs/operators';
 import { MethodSourceInfo } from 'loupe-typescript/dist/MethodSourceInfo';
-import { RouteChangeListenerService } from "./route-change-listener/route-change-listener.service";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +15,6 @@ export class AppComponent {
   constructor(
     private router: Router,
     private loupe: LoupeService,
-    // private routeChangeListenerService: RouteChangeListenerService
   ) { 
     this.loupe.setCORSOrigin("https://localhost:44348");
 
