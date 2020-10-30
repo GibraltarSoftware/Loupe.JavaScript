@@ -1,40 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-
+import { NgModule, ErrorHandler } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { FirstComponent } from './first/first.component';
 import { SecondComponent } from './second/second.component';
+import { LoupeAngularModule } from 'loupe-angular/dist/loupe-angular';
+import { MyErrorHandler } from './error-handler/error-handler';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     FirstComponent,
     SecondComponent
-  ],
+  ], 
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'first', component: FirstComponent },
-      { path: 'second', component: SecondComponent }
-    ])
+    BrowserModule,
+    AppRoutingModule,
+    LoupeAngularModule,
+    // HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: Window, useValue: window },
+    { provide: Document, useValue: document },
+    { provide: ErrorHandler, useClass: MyErrorHandler }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

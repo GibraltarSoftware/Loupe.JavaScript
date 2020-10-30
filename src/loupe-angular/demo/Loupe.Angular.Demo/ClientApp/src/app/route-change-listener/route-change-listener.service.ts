@@ -1,20 +1,17 @@
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NavigationStart, Router, RouterEvent } from '@angular/router';
-import { LoupeService } from 'loupe-angular/dist/loupe-angular';
 import { filter } from 'rxjs/operators';
+import { LoupeService } from 'loupe-angular/dist/loupe-angular';
 import { MethodSourceInfo } from 'loupe-typescript/dist/MethodSourceInfo';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+@Injectable({
+  providedIn: 'root'
 })
-export class AppComponent {
-  title = 'jSAgentTest';
+export class RouteChangeListenerService {
 
   constructor(
     private router: Router,
-    private loupe: LoupeService,
+    private loupe: LoupeService
   ) { 
     this.loupe.setCORSOrigin("https://localhost:44348");
 
