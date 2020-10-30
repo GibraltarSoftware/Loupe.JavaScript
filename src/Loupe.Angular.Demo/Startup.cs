@@ -20,6 +20,9 @@ namespace Loupe.Angular.Demo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLoupe()
+                .AddClientLogging();
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -49,13 +52,17 @@ namespace Loupe.Angular.Demo
                 app.UseSpaStaticFiles();
             }
 
+            app.UseLoupeCookies();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapLoupeClientLogger();
             });
 
             app.UseSpa(spa =>
