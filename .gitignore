@@ -1,3 +1,2 @@
 node_modules
-loupe-typescript/dist
-loupe-angular/dist
+**/*/dist

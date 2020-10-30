@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loupe.Angular.Demo", "Loupe.Angular.Demo.csproj", "{0ABDA5F8-DF1A-4C71-BB4A-908692AD6590}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0ABDA5F8-DF1A-4C71-BB4A-908692AD6590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ABDA5F8-DF1A-4C71-BB4A-908692AD6590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ABDA5F8-DF1A-4C71-BB4A-908692AD6590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ABDA5F8-DF1A-4C71-BB4A-908692AD6590}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF47DFD3-95A6-455C-A91E-BAFC4F7D0247}
+	EndGlobalSection
+EndGlobal
