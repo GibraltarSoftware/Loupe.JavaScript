@@ -1,3 +1,4 @@
+import { MethodSourceInfo } from 'loupe-typescript/dist/MethodSourceInfo';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { LoupeService } from '../loupe.service';
 
@@ -12,10 +13,7 @@ export class MyErrorHandler extends ErrorHandler {
 
   handleError(error) {
     super.handleError(error);
-    this.loupe.verbose('verbose', 'verbose', 'verbose description');
-    this.loupe.information('info', 'info', 'info');
-    this.loupe.warning('warning', 'warning', 'warning description');
-    this.loupe.error('error', 'error', 'error description');
-    this.loupe.critical('critical', 'critical', 'critical description');
+    this.loupe.error('Angular Client', 'Unhandled Error', 'An unhandled error was caught',
+      null, error, null, new MethodSourceInfo('error-handler.ts', 'handleError', 16));
   }
 }
