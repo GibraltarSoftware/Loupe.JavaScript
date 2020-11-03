@@ -13,22 +13,22 @@ export class LoupeService {
   constructor(
     private readonly window: Window,
     private readonly document: Document
-  ) { 
+  ) {
     this.loupe = new LoupeAgent(this.window, this.document);
   }
 
-  setCORSOrigin(origin: string) {
+  setCORSOrigin(origin: string): void {
     this.loupe.setCORSOrigin(origin);
   }
 
-  setSessionId(id: string) {
+  setSessionId(id: string): void {
     this.loupe.setSessionId(id);
   }
-  
-  setAuthorizationHeader(header: Header) {
+
+  setAuthorizationHeader(header: Header): void {
     this.loupe.setAuthorizationHeader(header);
   }
-  
+
   information(
     category: string,
     caption: string,
@@ -47,7 +47,7 @@ export class LoupeService {
       methodSourceInfo
     );
   }
-  
+
   verbose(
     category: string,
     caption: string,
@@ -67,7 +67,7 @@ export class LoupeService {
       methodSourceInfo
     );
   }
-  
+
   warning(
     category: string,
     caption: string,
@@ -87,7 +87,7 @@ export class LoupeService {
       methodSourceInfo
     );
   }
-  
+
   error(
     category: string,
     caption: string,
@@ -107,7 +107,7 @@ export class LoupeService {
       methodSourceInfo
     );
   }
-  
+
   critical(
     category: string,
     caption: string,
