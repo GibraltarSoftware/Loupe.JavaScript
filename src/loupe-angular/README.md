@@ -45,7 +45,7 @@ import { LoupeService } from 'loupe-angular/dist/loupe-angular';
 export class FirstComponent implements OnInit {
 
   constructor(
-    private readonly loupeAgentAngularService: LoupeAgentAngularService
+    private readonly LoupeService: LoupeService
   ) { }
 
   ngOnInit(): void {
