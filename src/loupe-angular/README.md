@@ -1,64 +1,27 @@
-# loupe-angular
-<code>loupe-angular</code> is a wrapper for the [Loupe TypeScript Agent](../loupe-typescript), providing logging and error handling capabilities for your Angular applications.
+# LoupeAngular
 
-The module automatically creates a Loupe client logger and hooks into the <code>ErrorHandler</code> of Angular, so that any uncaught errors in your Angular application are logged to Loupe. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.29.
 
-## Installation
-You can install the module via <code>npm</code>:
+## Development server
 
-<pre>
-npm install loupe-angular
-</pre>
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Examples
+## Code scaffolding
 
-You should set your session ID and CORS origin (if applicable) as soon as your application starts. The <code>AppComponent</code> is a good place to do this.
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-<pre>
-import { LoupeService } from 'loupe-angular/dist/loupe-angular';
+## Build
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-  constructor(private readonly loupe: LoupeService) {
-    loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
-    loupe.setCORSOrigin('https://myserver.com/Loupe/Log');
-  }
-  
-}
-</pre>
+## Running unit tests
 
-You follow the same pattern in other component, by using the Loupe service:
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-<pre>
-import { LoupeService } from 'loupe-angular/dist/loupe-angular';
+## Running end-to-end tests
 
-@Component({
-  selector: 'app-first',
-  templateUrl: './first.component.html',
-  styleUrls: ['./first.component.css']
-})
-export class FirstComponent implements OnInit {
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-  constructor(
-    private readonly LoupeService: LoupeService
-  ) { }
+## Further help
 
-  ngOnInit(): void {
-    this.loupe.information(
-      'JavaScript', 'Component Initialization', 'The first component is initializing',
-      null, null, null,
-      new MethodSourceInfo('first.component.ts', 'ngOnInit', 15)
-    );
-  }
-}
-</pre>
-
-For more usage see the [Sample Angular Project](../loupe-angular-client)
-
-## License
-This module is licensed under ...
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

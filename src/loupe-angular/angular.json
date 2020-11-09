@@ -14,11 +14,6 @@
           "options": {
             "tsConfig": "projects/loupe-angular/tsconfig.lib.json",
             "project": "projects/loupe-angular/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/loupe-angular/tsconfig.lib.prod.json"
-            }
           }
         },
         "test": {
@@ -42,7 +37,6 @@
           }
         }
       }
-    }
-  },
+    }},
   "defaultProject": "loupe-angular"
 }
