@@ -195,7 +195,7 @@ export class LoupeAgent {
     );
   }
 
-    /**
+  /**
    * Logs a message
    * @param severity - The message severity
    * @param category - The message category
@@ -333,9 +333,7 @@ export class LoupeAgent {
       return;
     }
 
-    this.window.onerror = (
-      event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error
-    ) => {
+    this.window.onerror = (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => {
       if (this.existingOnError) {
         this.existingOnError(event, source, lineno, colno, error);
       }
