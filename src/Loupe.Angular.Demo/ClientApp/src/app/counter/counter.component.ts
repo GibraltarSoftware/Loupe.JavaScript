@@ -15,12 +15,10 @@ export class CounterComponent {
   public incrementCounter() {
     this.currentCount++;
 
-    const someObject = { name: "matt", code: this.currentCount };
+    const someObject = { name: "test", code: 123 };
     this.loupe.information(
-      "JavaScript", "category", "description",
-      null, null,
-      JSON.stringify(someObject),
-      null
+      "Angular", "Incrementing Counter", 'Counter is now {0}',
+      [this.currentCount], null, JSON.stringify(someObject), null
     );
   }
 
