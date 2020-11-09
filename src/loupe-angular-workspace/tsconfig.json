@@ -17,15 +17,7 @@
     "lib": [
       "es2018",
       "dom"
-    ],
-    "paths": {
-      "loupe-angular": [
-        "dist/loupe-angular"
-      ],
-      "loupe-angular/*": [
-        "dist/loupe-angular/*"
-      ]
-    }
+    ]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
