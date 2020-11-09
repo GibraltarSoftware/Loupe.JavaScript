@@ -13,7 +13,6 @@ export class LoupeAngularComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit(): void { }
 
 }
