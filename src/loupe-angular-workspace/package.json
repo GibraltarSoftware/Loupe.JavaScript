@@ -1,5 +1,23 @@
 {
-  "name": "loupe-angular-workspace",
+  "name": "loupe-angular",
+  "description": "Loupe Agent for Angular",
+  "keywords": [
+    "Gibraltar",
+    "Loupe",
+    "TypeScript",
+    "Angular"
+  ],
+  "homepage": "https://github.com/GibraltarSoftware/Loupe.JavaScript",
+  "author": "Gibraltar Software",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GibraltarSoftware/Loupe.JavaScript/issues",
+    "email": "support@gibraltarsoftware.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GibraltarSoftware/Loupe.JavaScript"
+  },
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
