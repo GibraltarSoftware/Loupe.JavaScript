@@ -17,7 +17,6 @@ export class AppComponent {
     this.router.events.pipe(
       filter(x => x instanceof NavigationStart)
     ).subscribe((evnt: RouterEvent) => {
-      console.log(evnt);
       this.loupe.information(
         "Angular", "NavigationStart", evnt.url,
         null, null, JSON.stringify(evnt), null
