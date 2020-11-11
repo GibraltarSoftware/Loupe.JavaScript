@@ -32,7 +32,7 @@ export class AppComponent {
 }
 </pre>
 
-You follow the same pattern in other component, by using the Loupe service:
+You follow the same pattern in other components, by using the Loupe service:
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -51,12 +51,41 @@ export class FirstComponent implements OnInit {
   ngOnInit(): void {
     this.loupe.information(
       'JavaScript', 'Component Initialization', 'The first component is initializing',
-      null, null, null,
-      new MethodSourceInfo('first.component.ts', 'ngOnInit', 15)
+      null, null, null, null
     );
   }
 }
 </pre>
+
+Subscribe to router events to log navigation changes from within AppComponent: 
+
+<pre>
+import { LoupeService } from '@gibraltarsoftware/loupe-angular';
+
+@Component({
+  selector: 'app-root', 
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  constructor(private readonly loupe: LoupeService) {
+    loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
+    loupe.setCORSOrigin('https://myserver.com');
+
+    this.router.events
+    .pipe(filter(x => x instanceof NavigationStart))
+    .subscribe((evnt: RouterEvent) => {
+      this.loupe.information(
+        "Angular", "NavigationStart", evnt.url,
+        null, null, null, null
+      );
+    });
+  }
+  
+}
+
+<pre>
 
 For more usage examples see the Sample ASP.NET Core Applications:
 * [ASP.NET Core application with Angular 8 frontend](../Loupe.Angular.Demo)</li>
