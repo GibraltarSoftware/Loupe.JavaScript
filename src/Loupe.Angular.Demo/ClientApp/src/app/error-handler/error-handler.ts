@@ -17,8 +17,7 @@ export class MyErrorHandler extends ErrorHandler {
     // Use custom behaviour here
     this.loupe.information(
       "Angular", "Error", "Uncaught Exception",
-      null, error, null,
-      null
+      null, error, null, null
     );
   }
 }

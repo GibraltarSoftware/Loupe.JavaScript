@@ -9,7 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { MyErrorHandler } from './error-handler/error-handler';
+import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { MyErrorHandler } from './error-handler/error-handler';
     ])
   ],
   providers: [
-    { provide: ErrorHandler, useClass: MyErrorHandler }
+    { provide: ErrorHandler, useClass: LoupeErrorHandler }
   ],
   bootstrap: [AppComponent]
 })

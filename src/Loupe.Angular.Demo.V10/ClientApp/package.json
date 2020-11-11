@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "10.2.3",
     "@angular/platform-server": "10.2.3",
     "@angular/router": "10.2.3",
-    "@gibraltarsoftware/loupe-angular": "^1.4.5",
+    "@gibraltarsoftware/loupe-angular": "^1.4.6",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.5.3",
     "core-js": "^3.7.0",
