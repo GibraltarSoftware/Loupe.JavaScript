@@ -85,7 +85,7 @@ export class AppComponent {
   
 }
 
-<pre>
+</pre>
 
 For more usage examples see the Sample ASP.NET Core Applications:
 * [ASP.NET Core application with Angular 8 frontend](../Loupe.Angular.Demo)</li>
