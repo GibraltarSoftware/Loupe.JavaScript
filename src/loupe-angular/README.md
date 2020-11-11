@@ -1,5 +1,5 @@
 # loupe-angular
-<code>loupe-angular</code> is a wrapper for the [Loupe TypeScript Agent](../loupe-typescript), providing logging and error handling capabilities for your Angular applications.
+<code>@gibraltarsoftware/loupe-angular</code> is a wrapper for the [Loupe TypeScript Agent](../loupe-typescript), providing logging and error handling capabilities for your Angular applications.
 
 The module automatically creates a Loupe client logger and hooks into the <code>ErrorHandler</code> of Angular, so that any uncaught errors in your Angular application are logged to Loupe. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
 
@@ -7,7 +7,7 @@ The module automatically creates a Loupe client logger and hooks into the <code>
 You can install the module via <code>npm</code>:
 
 <pre>
-npm install loupe-angular
+npm install @gibraltarsoftware/loupe-angular
 </pre>
 
 ## Examples
@@ -15,10 +15,10 @@ npm install loupe-angular
 You should set your session ID and CORS origin (if applicable) as soon as your application starts. The <code>AppComponent</code> is a good place to do this.
 
 <pre>
-import { LoupeService } from 'loupe-angular/dist/loupe-angular';
+import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-root', 
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -35,7 +35,7 @@ export class AppComponent {
 You follow the same pattern in other component, by using the Loupe service:
 
 <pre>
-import { LoupeService } from 'loupe-angular/dist/loupe-angular';
+import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 
 @Component({
   selector: 'app-first',
@@ -58,7 +58,11 @@ export class FirstComponent implements OnInit {
 }
 </pre>
 
-For more usage see the [Sample Angular Project](../loupe-angular-client)
+For more usage examples see the Sample ASP.NET Core Applications
+<ul>
+<li>[with Angular 8 frontend](../Loupe.Angular.Demo)</li>
+<li>[with Angular 10 frontend](../Loupe.Angular.Demo.V10)</li>
+</ul>
 
 ## License
 This module is licensed under ...
