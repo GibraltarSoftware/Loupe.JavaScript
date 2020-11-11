@@ -58,11 +58,9 @@ export class FirstComponent implements OnInit {
 }
 </pre>
 
-For more usage examples see the Sample ASP.NET Core Applications
-<ul>
-<li>[with Angular 8 frontend](../Loupe.Angular.Demo)</li>
-<li>[with Angular 10 frontend](../Loupe.Angular.Demo.V10)</li>
-</ul>
+For more usage examples see the Sample ASP.NET Core Applications:
+* [ASP.NET Core application with Angular 8 frontend](../Loupe.Angular.Demo)</li>
+* [ASP.NET Core application with Angular 10 frontend](../Loupe.Angular.Demo.V10)</li>
 
 ## License
 This module is licensed under ...
