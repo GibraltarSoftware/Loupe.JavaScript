@@ -114,7 +114,7 @@ Capture uncaught exceptions automatically by importing the LoupeAngularModule in
 })
 export class AppModule { }
 
-<pre>
+</pre>
 
 Create your own Error Handler class by extending LoupeErrorHandler to log to Loupe and define your own custom behaviour:
 
@@ -140,6 +140,8 @@ export class MyErrorHandler extends LoupeErrorHandler {
 }
 
 </pre>
+
+and provide it in your providers array in AppModule:
 
 <pre>
 
@@ -168,7 +170,7 @@ export class MyErrorHandler extends LoupeErrorHandler {
 })
 export class AppModule { }
 
-<pre>
+</pre>
 
 For more usage examples see the Sample ASP.NET Core Applications:
 * [ASP.NET Core application with Angular 8 frontend](../Loupe.Angular.Demo)</li>
