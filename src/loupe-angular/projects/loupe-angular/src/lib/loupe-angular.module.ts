@@ -1,5 +1,4 @@
-import { ErrorHandler } from '@angular/core';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { LoupeAngularComponent } from './loupe-angular.component';
 import { LoupeErrorHandler } from './loupe-error-handler';
 
