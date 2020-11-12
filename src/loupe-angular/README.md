@@ -87,6 +87,89 @@ export class AppComponent {
 
 </pre>
 
+Capture uncaught exceptions automatically by importing the LoupeAngularModule into your AppModule.
+
+<pre>
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    NavMenuComponent,
+    HomeComponent,
+    CounterComponent,
+    FetchDataComponent
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot([
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'counter', component: CounterComponent },
+      { path: 'fetch-data', component: FetchDataComponent },
+    ]),
+    LoupeAngularModule
+  ]
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+<pre>
+
+Create your own Error Handler class by extending LoupeErrorHandler to log to Loupe and define your own custom behaviour:
+
+<pre>
+
+import { Injectable } from '@angular/core';
+import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
+
+@Injectable()
+export class MyErrorHandler extends LoupeErrorHandler {
+  
+  constructor() {
+      super();
+  }
+
+  handleError(error: any) {
+    // Use built-in behaviour by including this line
+    super.handleError(error);
+
+    // Use custom behaviour here
+    alert("MyErrorHandler");
+  }
+}
+
+</pre>
+
+<pre>
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    NavMenuComponent,
+    HomeComponent,
+    CounterComponent,
+    FetchDataComponent
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot([
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'counter', component: CounterComponent },
+      { path: 'fetch-data', component: FetchDataComponent },
+    ])
+  ],
+  providers: [
+    { provide: ErrorHandler, useClass: MyErrorHandler }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+<pre>
+
 For more usage examples see the Sample ASP.NET Core Applications:
 * [ASP.NET Core application with Angular 8 frontend](../Loupe.Angular.Demo)</li>
 * [ASP.NET Core application with Angular 10 frontend](../Loupe.Angular.Demo.V10)</li>
