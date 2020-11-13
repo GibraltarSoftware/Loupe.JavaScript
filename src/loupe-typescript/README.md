@@ -27,7 +27,7 @@ npm install @gibraltarsoftware/loupe-typescript
 * resetMessageInterval(interval: number) - resets the interval used to batch up and send messages. This interval starts at 10 milliseconds and increases if there are failures to send; messages are stored in the browser local storage and resent in order when communication is restored.
 * addSendMessageCommandToEventQueue() - immediately send any queued messages.
 
-The <code>critical</code>, <code>error</code>, <code>information</code>, <code>warning</code> and <code>verbose</code> methods are all convenience wrappers over the <code>critical</code> method. For these, the parameters are:
+The <code>critical</code>, <code>error</code>, <code>information</code>, <code>warning</code> and <code>verbose</code> methods are all convenience wrappers over the <code>write</code> method. For these, the parameters are:
 
 * category - The application subsystem or logging category that the log message is associated with, which supports a dot-delimited hierarchy (eg the logger name).
 * caption - A simple single-line message caption. (Will not be processed for formatting).
