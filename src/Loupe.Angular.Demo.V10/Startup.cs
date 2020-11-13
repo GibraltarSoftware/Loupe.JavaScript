@@ -25,6 +25,15 @@ namespace Loupe.Angular.Demo
             services.AddLoupe().AddClientLogging();
 
             services.AddControllersWithViews();
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -45,6 +54,8 @@ namespace Loupe.Angular.Demo
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors("AllowOrigin");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
