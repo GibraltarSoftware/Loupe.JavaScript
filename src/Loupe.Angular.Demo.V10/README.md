@@ -8,7 +8,7 @@ The application can be run through Visual Studio simply by pressing F5.
 
 The demo builds upon the ASP.NET Core Angular template by adding in calls to loupe in various locations:
 
-* A call is made to <code>loupe.information</code> when the route changes, this is set by hooking in to the ROuter events from within <code>app.component.ts</code>
+* A call is made to <code>loupe.information</code> when the route changes, this is set by hooking in to the Router events from within <code>app.component.ts</code>
 
 * A call is made to <code>loupe.information</code> when the counter is incremented from within <code>counter.component.ts</code>
 
