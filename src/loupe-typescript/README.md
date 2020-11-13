@@ -1,5 +1,5 @@
 # loupe-typescript
-<code>loupe-typescript</code> is a Loupe Agent for web browser applications.
+<code>@gibraltarsoftware/loupe-typescript</code> is a Loupe Agent for web browser applications.
 
 The agent will hook into the <code>window.onerror</code> event to automatically log any uncaught JavaScript errors.
 
@@ -9,7 +9,7 @@ Use of the agent needs to be combined with a server component to correlate the a
 You can install the module via <code>npm</code>:
 
 <pre>
-npm install loupe-agent
+npm install @gibraltarsoftware/loupe-typescript
 </pre>
 
 ## API
