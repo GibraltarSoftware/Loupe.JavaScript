@@ -3,7 +3,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 
 @Injectable()
 export class MyErrorHandler extends ErrorHandler {
-  
+
   constructor(
     private readonly loupe: LoupeService
   ) {
@@ -11,13 +11,13 @@ export class MyErrorHandler extends ErrorHandler {
   }
 
   handleError(error: any) {
+      // Use custom behaviour here
+      this.loupe.error(
+        'Angular', 'Error', 'Uncaught Exception',
+        null, error, null, null
+      );
+
     // Use built-in behaviour by including this line
     super.handleError(error);
-
-    // Use custom behaviour here
-    this.loupe.information(
-      "Angular", "Error", "Uncaught Exception",
-      null, error, null, null
-    );
   }
 }
