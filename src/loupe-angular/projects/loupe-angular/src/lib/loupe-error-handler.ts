@@ -3,7 +3,7 @@ import { LoupeService } from './loupe.service';
 
 @Injectable()
 export class LoupeErrorHandler extends ErrorHandler {
-  
+
   private loupe: LoupeService
 
   constructor() {
@@ -13,8 +13,8 @@ export class LoupeErrorHandler extends ErrorHandler {
 
   handleError(error: any) {
     super.handleError(error);
-    this.loupe.information(
-      "Angular", "LoupeErrorHandler", "Uncaught Exception Details",
+    this.loupe.error(
+      'Angular', 'Loupe Error Handler', 'Uncaught Exception Details',
       null, error, null, null
     );
   }
