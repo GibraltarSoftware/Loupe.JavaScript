@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
-import { LoupeService } from './loupe-service.service';
+import { LoupeService } from './loupe.service';
 
 @Injectable()
 export class MyErrorHandler extends ErrorHandler {
