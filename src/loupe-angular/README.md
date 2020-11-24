@@ -1,7 +1,7 @@
 # loupe-angular
 <code>@gibraltarsoftware/loupe-angular</code> is a wrapper for the [Loupe TypeScript Agent](../loupe-typescript), providing logging and error handling capabilities for your Angular applications.
 
-The module automatically creates a Loupe client logger and hooks into the <code>ErrorHandler</code> of Angular, so that any uncaught errors in your Angular application are logged to Loupe. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
+The module automatically creates a Loupe client logger and hooks into the <code>ErrorHandler</code> of Angular, so that any uncaught errors in your Angular application are logged to Loupe, enabled by configuring your application providers. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
 
 ## Installation
 You can install the module via <code>npm</code>:
@@ -9,6 +9,13 @@ You can install the module via <code>npm</code>:
 <pre>
 npm install @gibraltarsoftware/loupe-angular
 </pre>
+
+## Installation and Execution Steps
+
+### Angular 8
+### Angular 10
+### React
+### JavaScript
 
 ## Examples
 
@@ -32,7 +39,21 @@ export class AppComponent {
 }
 </pre>
 
-You follow the same pattern in other components, by using the Loupe service:
+The <code>setCORSOrigin</code> call should be used when your application is not hosted in that same domain or port
+as the server application that collects the logs.
+
+### Error Handlers
+
+To use the error handler, modify you <code>app.module.ts</code> and add the Loupe error handler as a provider for the Angular <code>ErrorHandler</code>.
+
+<pre>
+providers: [
+    { provide: ErrorHandler, useClass: LoupeErrorHandler }
+  ]
+</pre>
+
+### Service Usage
+In other components you follow the same injection pattern, by using the Loupe service:
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -57,7 +78,8 @@ export class FirstComponent implements OnInit {
 }
 </pre>
 
-Subscribe to router events to log navigation changes from within AppComponent: 
+### Routing
+Hooking into route change events is a good way to track page changes. For this you can subscribe to router events from within AppComponent:
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -87,36 +109,8 @@ export class AppComponent {
 
 </pre>
 
-Capture uncaught exceptions automatically by importing the LoupeAngularModule into your AppModule.
-
-<pre>
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
-  ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ]),
-    LoupeAngularModule
-  ]
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-
-</pre>
-
-Create your own Error Handler class by extending LoupeErrorHandler to log to Loupe and define your own custom behaviour:
+### Error Handlers
+While the Loupe Angular package provides a default error handler for you to use as a provider, you can of course, create your own handler for this purpose. Create your own Error Handler class by extending ErrorHandler and define your own custom behaviour to log to Loupe:
 
 <pre>
 
@@ -126,7 +120,7 @@ import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
 @Injectable()
 export class MyErrorHandler extends LoupeErrorHandler {
   
-  constructor() {
+  constructor(private readonly loupe: LoupeService) {
       super();
   }
 
@@ -135,13 +129,15 @@ export class MyErrorHandler extends LoupeErrorHandler {
     super.handleError(error);
 
     // Use custom behaviour here
-    alert("MyErrorHandler");
+    this.loupe.recordException(error, null, 'Uncaught Exception');
   }
 }
 
 </pre>
 
-and provide it in your providers array in AppModule:
+The <code>recordException</code> method wraps up some intelligence to extract error details and a stack trace (if available) from the supplied error. The supplied <code>LoupeErrorHandler</code> identifies different error types and 
+
+Once defined, you provide the handler in your providers array in AppModule:
 
 <pre>
 

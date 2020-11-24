@@ -140,4 +140,12 @@ export class LoupeService {
       methodSourceInfo
     );
   }
+
+  public recordException(
+    exception: any,
+    details?: any,
+    category?: string
+    ): void {
+      this.loupe.recordException(exception, details, category);
+  }
 }

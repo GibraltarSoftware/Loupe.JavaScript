@@ -3,7 +3,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { LoupeService } from './loupe.service';
 
 @Injectable()
-export class MyErrorHandler extends ErrorHandler {
+export class LoupeErrorHandler extends ErrorHandler {
 
     constructor(
         private readonly loupe: LoupeService
