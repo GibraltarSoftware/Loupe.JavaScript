@@ -20,7 +20,7 @@ const path = require('path');module.exports = {
         filename: 'loupe.typescript.js',
         path: path.resolve(__dirname, 'dist'),
         library: "loupe-typescript",
-        libraryTarget: "umd",
+        libraryTarget: "commonjs",
         globalObject: 'this' 
     },
 };

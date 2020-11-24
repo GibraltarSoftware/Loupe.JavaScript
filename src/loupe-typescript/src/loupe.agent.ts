@@ -210,7 +210,7 @@ export class LoupeAgent {
       if (exception.stack && typeof exception.stack === 'string') {
         this.createStackFromMessage(exception.stack).then((stack: any[]) => {
           exception.stack = stack;
-          this.write(LogMessageSeverity.error, category,
+          this.write(LogMessageSeverity.error, category as string,
             caption, exception.description, null, exception, details, null);
         });
 
