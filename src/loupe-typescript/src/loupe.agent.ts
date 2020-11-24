@@ -16,6 +16,7 @@ export class LoupeAgent {
 
   private maxRequestSize = 204800;
   private messageInterval = 10;
+  private exceptionCategory = 'Javascript.Exception';
 
   private existingOnError!: OnErrorEventHandler | null;
   private sequenceNumber = 0;
@@ -195,6 +196,30 @@ export class LoupeAgent {
     );
   }
 
+  public recordException(
+    exception: any,
+    details?: any,
+    category?: string
+    ): void {
+      const caption = exception.caption || exception.name;
+
+      if (!category) {
+        category = this.exceptionCategory;
+      }
+
+      if (exception.stack && typeof exception.stack === 'string') {
+        this.createStackFromMessage(exception.stack).then((stack: any[]) => {
+          exception.stack = stack;
+          this.write(LogMessageSeverity.error, category,
+            caption, exception.description, null, exception, details, null);
+        });
+
+      } else {
+        this.write(LogMessageSeverity.error, category,
+          caption, exception.description, null, exception, details, null);
+      }
+  }
+
   /**
    * Logs a message
    * @param severity - The message severity
@@ -360,25 +385,25 @@ export class LoupeAgent {
     return platformDetails;
   }
 
-  private getStackTrace(error: any, errorMessage: any): any[] {
+  private getStackTrace(error: any, errorMessage: any): Promise<any[]> {
     if (typeof error === 'undefined' || error === null || !error.stack) {
       return this.createStackFromMessage(errorMessage);
     }
 
-    return this.createStackFromError(error);
+    return Promise.resolve(this.createStackFromError(error));
   }
 
-  private createStackFromMessage(errorMessage: string) {
+  private createStackFromMessage(errorMessage: string): Promise<any[]> {
     if (StackTrace) {
       try {
-        StackTrace.fromError(new Error(errorMessage)).then((stack: any) => {
+        return StackTrace.fromError(new Error(errorMessage)).then((stack: any) => {
           return this.stripLoupeStackFrames(stack.reverse());
         });
       } catch (e) {
         // deliberately swallow; some browsers don't expose the stack property on the exception
       }
     }
-    return [];
+    return Promise.resolve([]);
   }
 
   private createStackFromError(error: any): any[] {
@@ -433,25 +458,27 @@ export class LoupeAgent {
     return position;
   }
 
-  private logError(msg: Event | string, url?: string, line?: number, column?: number, error?: Error): boolean {
+  private logError(msg: Event | string, url?: string, line?: number, column?: number, error?: Error): void {
     let errorName = '';
 
     if (error) {
       errorName = error.name || 'Exception';
     }
 
-    const exception = {
-      cause: errorName,
-      column,
-      line,
-      message: msg,
-      stackTrace: this.getStackTrace(error, msg),
-      url,
-    };
+    this.getStackTrace(error, msg).then((stack: any[]) => {
+      const exception = {
+        cause: errorName,
+        column,
+        line,
+        message: msg,
+        stackTrace: this.getStackTrace(error, msg),
+        url,
+      };
 
-    this.createMessage(LogMessageSeverity.error, 'JavaScript', errorName, '', null, exception, null, null);
+      this.createMessage(LogMessageSeverity.error, 'JavaScript', errorName, '', null, exception, null, null);
 
-    return this.logMessageToServer();
+      this.logMessageToServer();
+    });
   }
 
   private checkForStorageQuotaReached(e: any): boolean {
@@ -630,7 +657,6 @@ export class LoupeAgent {
     }
   }
 
-  // TODO - this needs to return Exception
   private createExceptionFromError(error: any, cause: string | null): any {
     // if error has simply been passed through as a string
     // log the best we could
