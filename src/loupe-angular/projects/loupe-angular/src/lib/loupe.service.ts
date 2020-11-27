@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript/dist/loupe.agent';
-import { Header } from '@gibraltarsoftware/loupe-typescript/dist/header';
+import { Header } from '@gibraltarsoftware/loupe-typescript/dist/Header';
 import { MethodSourceInfo } from '@gibraltarsoftware/loupe-typescript/dist/MethodSourceInfo';
 
 export function getWindow() { return window; }

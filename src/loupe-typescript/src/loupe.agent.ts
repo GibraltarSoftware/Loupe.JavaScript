@@ -4,7 +4,7 @@ import * as StackTrace from 'stacktrace-js';
 import { Exception } from './Exception';
 import { Header } from './Header';
 import { ILocalPlatform } from './LocalPlatform';
-import { LocalStorageMessage } from './localStorageMessage';
+import { LocalStorageMessage } from './LocalStorageMessage';
 import { LogMessageSeverity } from './LogMessageSeverity';
 import { MethodSourceInfo } from './MethodSourceInfo';
 
