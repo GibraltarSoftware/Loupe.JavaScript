@@ -1,7 +1,7 @@
 import * as clientPlatform from 'platform';
 import * as StackTrace from 'stacktrace-js';
 
-import { Exception } from './exception';
+import { Exception } from './Exception';
 import { Header } from './Header';
 import { ILocalPlatform } from './LocalPlatform';
 import { LocalStorageMessage } from './localStorageMessage';

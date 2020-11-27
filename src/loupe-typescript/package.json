@@ -1,6 +1,6 @@
 {
   "name": "@gibraltarsoftware/loupe-typescript",
-  "version": "1.2.8",
+  "version": "1.2.11",
   "description": "Loupe Agent for Web clients",
   "keywords": [
     "Gibraltar",
@@ -19,8 +19,8 @@
     "url": "https://github.com/GibraltarSoftware/Loupe.JavaScript"
   },
   "private": false,
-  "main": "dist/loupe.agent.js",
-  "types": "dist/loupe.agent.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jasmine-ts --config=spec/support/jasmine.json",
     "test:debug": "npm run build && node --inspect-brk node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=spec/support/jasmine.json",
