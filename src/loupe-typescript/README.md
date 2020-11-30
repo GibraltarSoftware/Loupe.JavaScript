@@ -12,6 +12,43 @@ You can install the module via <code>npm</code>:
 npm install @gibraltarsoftware/loupe-typescript
 </pre>
 
+### Installation in Angular
+
+While we receommend using [loupe-angular](../loupe-angular) for Angular applications, you can of course use the basic agent. You'll want to use the agent throughout your application, so it needs to be globally available, and the simplest way to do this is to wrap it in a service.
+
+1. Install the agent:
+
+<pre>
+npm install @gibraltarsoftware/loupe-typescript
+</pre>
+
+2. Create a wrapper service:
+
+
+
+N. Configure the agent as early as possible in the application lifecycle. We recommend <code>app.component.ts</code>:
+
+<pre>
+import { LoupeService } from '@gibraltarsoftware/loupe-angular';
+
+@Component({
+  selector: 'app-root', 
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  constructor(private readonly loupe: LoupeService) {
+    loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
+    loupe.setCORSOrigin('https://myserver.com');
+  }
+  
+}
+</pre>
+
+### Installation in React
+
+
 ## API
 * critical(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?: * MethodSourceInfo | null) - write a categorized Crticial message to Loupe.
 * error(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?: * MethodSourceInfo | null) - write a categorized Error message to Loupe.
