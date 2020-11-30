@@ -1,7 +1,7 @@
 # loupe-angular
 <code>@gibraltarsoftware/loupe-angular</code> is a wrapper for the [Loupe TypeScript Agent](../loupe-typescript), providing logging and error handling capabilities for your Angular applications.
 
-The module automatically creates a Loupe client logger and hooks into the <code>ErrorHandler</code> of Angular, so that any uncaught errors in your Angular application are logged to Loupe, enabled by configuring your application providers. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
+The module automatically creates a Loupe client logger and provides a sample Angular <code>ErrorHandler</code> that can be enabled by configuring your application providers; this enables any uncaught errors in your Angular application to be logged to Loupe. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
 
 ## Installation
 You can install the module via <code>npm</code>:
@@ -10,12 +10,61 @@ You can install the module via <code>npm</code>:
 npm install @gibraltarsoftware/loupe-angular
 </pre>
 
+All Loupe client logging is designed to send log information to a server which handles logging to a Loupe server; please refer to the [main documentation](../../README.md) for references to the server logging portion, as installation and configuration depends upon your server.
+
+The Loupe Angular client logging works in both Angular 8 and Angular 11.
+
 ## Installation and Execution Steps
 
-### Angular 8
-### Angular 10
-### React
-### JavaScript
+The following detail the exact steps required to enable Loupe logging in your Web applications.
+
+1. Install Loupe
+
+<pre>
+npm install @gibraltarsoftware/loupe-angular
+</pre>
+
+2. Import the service into your main component (<code>app.component.ts</code>)
+
+<pre>
+import { LoupeService } from '@gibraltarsoftware/loupe-angular';
+</pre>
+
+3. Inject the service into your main component (<code>app.component.ts</code>)
+
+<pre>
+  constructor(private readonly loupe: LoupeService) {
+    ...
+  }
+</pre>
+
+4. Set the initial properties and call the Loupe methods:
+
+<pre>
+  constructor(private readonly loupe: LoupeService) {
+    // to set a unique ID for the session
+    this.loupe.setSessionId(this.getGuid());
+
+    // to set the Loupe target, if not the same domain or port
+    this.loupe.setCORSOrigin('https://mysite.com');
+
+    // to set authentication details if required by the server
+    this.loupe.setAuthorizationHeader(new Header('Basic', '1234'));
+
+    // log a message
+    this.loupe.information(this.title, 'App Started', 'The client application has started');
+  }
+</pre>
+
+5. Optionally configure the error handler in your application module (<code>app.module.ts</code>). You only need to do this step if you want to use the Loupe error handler for uncaught errors.
+
+<pre>
+  providers: [
+    { provide: ErrorHandler, useClass: LoupeErrorHandler }
+  ]
+</pre>
+
+### .NET Core and Angular
 
 ## Examples
 
@@ -47,10 +96,12 @@ as the server application that collects the logs.
 To use the error handler, modify you <code>app.module.ts</code> and add the Loupe error handler as a provider for the Angular <code>ErrorHandler</code>.
 
 <pre>
-providers: [
+  providers: [
     { provide: ErrorHandler, useClass: LoupeErrorHandler }
   ]
 </pre>
+
+You can of course, create your own error handler to log uncaught errors to Loupe
 
 ### Service Usage
 In other components you follow the same injection pattern, by using the Loupe service:
@@ -79,7 +130,7 @@ export class FirstComponent implements OnInit {
 </pre>
 
 ### Routing
-Hooking into route change events is a good way to track page changes. For this you can subscribe to router events from within AppComponent:
+Hooking into route change events is a good way to track page changes. For this you can subscribe to router events from within <code>AppComponent</code> or the <code>AppRoutingModule</code>:
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -110,7 +161,7 @@ export class AppComponent {
 </pre>
 
 ### Error Handlers
-While the Loupe Angular package provides a default error handler for you to use as a provider, you can of course, create your own handler for this purpose. Create your own Error Handler class by extending ErrorHandler and define your own custom behaviour to log to Loupe:
+While the Loupe Angular package provides a default error handler for you to use as a provider, you can of course, create your own handler for this purpose. Create your own Error Handler class by extending <code>ErrorHandler</code> and define your own custom behaviour to log to Loupe:
 
 <pre>
 
@@ -173,4 +224,4 @@ For more usage examples see the Sample ASP.NET Core Applications:
 * [ASP.NET Core application with Angular 10 frontend](../Loupe.Angular.Demo.V10)</li>
 
 ## License
-This module is licensed under ...
+This module is licensed under ISC
