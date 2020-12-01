@@ -7,7 +7,7 @@
     "start": "npx http-server ./dist -o"
   },
   "dependencies": {
-    "@gibraltarsoftware/loupe-typescript": "^1.2.3"
+    "@gibraltarsoftware/loupe-typescript": "^1.2.12"
   },
   "devDependencies": {
     "webpack": "^5.4.0",

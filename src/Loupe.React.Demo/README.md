@@ -10,4 +10,3 @@ The demo builds upon the ASP.NET Core React template by adding in calls to loupe
 
 * A call is made to <code>loupe.information</code> when the counter is incremented on the Counter page.
 
-* More code examples coming soon.

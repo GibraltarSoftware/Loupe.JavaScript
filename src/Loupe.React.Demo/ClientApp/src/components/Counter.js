@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript';
+import loupe  from "../services/LoupeService";
 
 export class Counter extends Component {
     static displayName = Counter.name;
@@ -15,12 +15,10 @@ export class Counter extends Component {
             currentCount: this.state.currentCount + 1
         });
 
-        const loupe = new LoupeAgent(window, document);
-        loupe.setSessionId('bf8d4505-8b55-4126-afbb-cfb4cb5689fa');
-        const someObject = { name: "test", code: 123, nestedObj: { a: 1 } };
+        const counterObject = { name: "counter", value: this.state.currentCount };
         loupe.information(
             "Angular", "Incrementing Counter", 'Counter is now {0}',
-            [this.state.currentCount], null, someObject, null
+            [this.state.currentCount], null, counterObject, null
         );
     }
 

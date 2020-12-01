@@ -49,7 +49,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
     this.loupe.setCORSOrigin('https://mysite.com');
 
     // to set authentication details if required by the server
-    this.loupe.setAuthorizationHeader(new Header('Basic', '1234'));
+    this.loupe.setAuthorizationHeader(new Header('Basic', 'QWxhZGRpbjpPcGVuU2VzYW1l'));
 
     // log a message
     this.loupe.information(this.title, 'App Started', 'The client application has started');
@@ -65,6 +65,66 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 </pre>
 
 ### .NET Core and Angular
+
+For a .NET Core Web Application using Angular, you need to install both the server and client components. 
+
+1. Install server component, a package <code>Loupe.Agent.AspNetCore</code> that can be installed via NuGet in the Visual Studio Package Manager, or from the command line:
+
+<pre>
+dotnet add package Loupe.Agent.AspNetCore
+</pre>
+
+2. Configure the server component to log to Loupe and to accept client requests. In <code>Startup.cs</code>, add the following to the <code>ConfigureServices</code> method:
+
+<pre>
+services.AddLoupe().AddClientLogging();
+</pre>
+
+3. Add the following to the endpoint configuration, in the <code>Configure</code> method:
+
+<pre>
+endpoints.MapLoupeClientLogger();
+</pre>
+
+The endpoint configuration should now look like:
+
+<pre>
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller}/{action=Index}/{id?}");
+
+    endpoints.MapLoupeClientLogger();
+});
+</pre>
+
+4. Install the client package from NPM. The simplest way to do this is to right-mouse click on the <code>ClientApp</code> folder and select <code>Open in Terminal</code>. Then from the terminal, install the NPM package:
+
+<pre>
+npm install @gibraltarsoftware/loupe-angular
+</pre>
+
+5. You can now import and use the service, starting in <code>app.component.ts</code>:
+
+<pre>
+import { Component } from '@angular/core';
+import { LoupeService } from '@gibraltarsoftware/loupe-angular';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent {
+  title = 'app';
+
+  constructor(private readonly loupe: LoupeService) {
+    this.loupe.information(this.title, 'App Started', 'The application has started');
+  }
+}
+</pre>
+
+When you run your application you will now see a message logged to Loupe; if you use the browser developer tools you can see a log pessage being sent to the server, and you can use [Loupe Desktop](https://onloupe.com/local-logging/free-net-log-viewer) to view the message in more detail.
 
 ## Examples
 
@@ -89,7 +149,7 @@ export class AppComponent {
 </pre>
 
 The <code>setCORSOrigin</code> call should be used when your application is not hosted in that same domain or port
-as the server application that collects the logs.
+as the server application that collects the logs. Note that your server application will need to support CORS for your client application.
 
 ### Error Handlers
 

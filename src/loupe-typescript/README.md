@@ -25,7 +25,6 @@ npm install @gibraltarsoftware/loupe-typescript
 2. Create a wrapper service:
 
 
-
 N. Configure the agent as early as possible in the application lifecycle. We recommend <code>app.component.ts</code>:
 
 <pre>
@@ -48,6 +47,37 @@ export class AppComponent {
 
 ### Installation in React
 
+1. Install the agent:
+
+<pre>
+npm install @gibraltarsoftware/loupe-typescript
+</pre>
+
+2. Create a wrapper service (LoupeService.js):
+
+<pre>
+import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript';
+
+var loupe = new LoupeAgent(window, window.document);
+
+export default loupe
+</pre>
+
+3. Import the service into your component:
+
+<pre>
+import loupe  from "./LoupeService";
+</pre>
+
+4. Log some details:
+
+<pre>
+const counterObject = { name: "counter", value: this.state.currentCount };
+loupe.information(
+    "Angular", "Incrementing Counter", 'Counter is now {0}',
+    [this.state.currentCount], null, counterObject, null
+);
+</pre>
 
 ## API
 * critical(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?: * MethodSourceInfo | null) - write a categorized Crticial message to Loupe.
@@ -135,4 +165,4 @@ For me examples, see the [sample project](../loupe-typescript-demos).
 * [platform](https://www.npmjs.com/package/platform) for obtaining platform details fo the client
 
 ## License
-This module is licensed under ...
+This module is licensed under ISC

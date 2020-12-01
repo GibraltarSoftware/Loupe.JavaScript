@@ -1,6 +1,11 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 
+/**
+ * This is an example error handler class and not used in the sample application.
+ * It shows how you would use the Angular ErrorHandler to trap uncaught exceptions
+ * and log them to Loupe.
+ */
 @Injectable()
 export class MyErrorHandler extends ErrorHandler {
 
@@ -12,12 +17,9 @@ export class MyErrorHandler extends ErrorHandler {
 
   handleError(error: any) {
       // Use custom behaviour here
-      this.loupe.error(
-        'Angular', 'Error', 'Uncaught Exception',
-        null, error, null, null
-      );
+      this.loupe.recordException(error, 'Uncaught Angular Error');
 
-    // Use built-in behaviour by including this line
+      // Use built-in behaviour by including this line
     super.handleError(error);
   }
 }
