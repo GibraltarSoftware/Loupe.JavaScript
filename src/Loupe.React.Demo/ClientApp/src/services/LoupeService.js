@@ -2,5 +2,5 @@
 
 var loupe = new LoupeAgent(window, window.document);
 
-export default loupe
+export default loupe;
 

@@ -1,10 +1,10 @@
 # loupe-angular
-<code>@gibraltarsoftware/loupe-angular</code> is a wrapper for the [Loupe TypeScript Agent](../loupe-typescript), providing logging and error handling capabilities for your Angular applications.
+**@gibraltarsoftware/loupe-angular** is a wrapper for the [Loupe TypeScript Agent](../loupe-typescript), providing logging and error handling capabilities for your Angular applications.
 
 The module automatically creates a Loupe client logger and provides a sample Angular <code>ErrorHandler</code> that can be enabled by configuring your application providers; this enables any uncaught errors in your Angular application to be logged to Loupe. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
 
 ## Installation
-You can install the module via <code>npm</code>:
+You can install the module via **npm**:
 
 <pre>
 npm install @gibraltarsoftware/loupe-angular
@@ -24,13 +24,13 @@ The following detail the exact steps required to enable Loupe logging in your We
 npm install @gibraltarsoftware/loupe-angular
 </pre>
 
-2. Import the service into your main component (<code>app.component.ts</code>)
+2. Import the service into your main component (**app.component.ts**)
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 </pre>
 
-3. Inject the service into your main component (<code>app.component.ts</code>)
+3. Inject the service into your main component (**app.component.ts**)
 
 <pre>
   constructor(private readonly loupe: LoupeService) {
@@ -56,7 +56,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
   }
 </pre>
 
-5. Optionally configure the error handler in your application module (<code>app.module.ts</code>). You only need to do this step if you want to use the Loupe error handler for uncaught errors.
+5. Optionally configure the error handler in your application module (**app.module.ts**). You only need to do this step if you want to use the Loupe error handler for uncaught errors.
 
 <pre>
   providers: [
@@ -68,13 +68,13 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 
 For a .NET Core Web Application using Angular, you need to install both the server and client components. 
 
-1. Install server component, a package <code>Loupe.Agent.AspNetCore</code> that can be installed via NuGet in the Visual Studio Package Manager, or from the command line:
+1. Install server component, a package **Loupe.Agent.AspNetCore** that can be installed via NuGet in the Visual Studio Package Manager, or from the command line:
 
 <pre>
 dotnet add package Loupe.Agent.AspNetCore
 </pre>
 
-2. Configure the server component to log to Loupe and to accept client requests. In <code>Startup.cs</code>, add the following to the <code>ConfigureServices</code> method:
+2. Configure the server component to log to Loupe and to accept client requests. In **Startup.cs****, add the following to the <code>ConfigureServices</code> method:
 
 <pre>
 services.AddLoupe().AddClientLogging();
@@ -99,13 +99,13 @@ app.UseEndpoints(endpoints =>
 });
 </pre>
 
-4. Install the client package from NPM. The simplest way to do this is to right-mouse click on the <code>ClientApp</code> folder and select <code>Open in Terminal</code>. Then from the terminal, install the NPM package:
+4. Install the client package from NPM. The simplest way to do this is to right-mouse click on the **ClientApp**** folder and select **Open in Terminal**. Then from the terminal, install the NPM package:
 
 <pre>
 npm install @gibraltarsoftware/loupe-angular
 </pre>
 
-5. You can now import and use the service, starting in <code>app.component.ts</code>:
+5. You can now import and use the service, starting in **app.component.ts**:
 
 <pre>
 import { Component } from '@angular/core';
@@ -128,7 +128,7 @@ When you run your application you will now see a message logged to Loupe; if you
 
 ## Examples
 
-You should set your session ID and CORS origin (if applicable) as soon as your application starts. The <code>AppComponent</code> is a good place to do this.
+You should set your session ID and CORS origin (if applicable) as soon as your application starts. The **AppComponent** is a good place to do this.
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -153,7 +153,7 @@ as the server application that collects the logs. Note that your server applicat
 
 ### Error Handlers
 
-To use the error handler, modify you <code>app.module.ts</code> and add the Loupe error handler as a provider for the Angular <code>ErrorHandler</code>.
+To use the error handler, modify you **app.module.ts** and add the Loupe error handler as a provider for the Angular <code>ErrorHandler</code>.
 
 <pre>
   providers: [
@@ -190,7 +190,7 @@ export class FirstComponent implements OnInit {
 </pre>
 
 ### Routing
-Hooking into route change events is a good way to track page changes. For this you can subscribe to router events from within <code>AppComponent</code> or the <code>AppRoutingModule</code>:
+Hooking into route change events is a good way to track page changes. For this you can subscribe to router events from within **AppComponent** or the **AppRoutingModule**:
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -224,7 +224,6 @@ export class AppComponent {
 While the Loupe Angular package provides a default error handler for you to use as a provider, you can of course, create your own handler for this purpose. Create your own Error Handler class by extending <code>ErrorHandler</code> and define your own custom behaviour to log to Loupe:
 
 <pre>
-
 import { Injectable } from '@angular/core';
 import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
 
@@ -243,7 +242,6 @@ export class MyErrorHandler extends LoupeErrorHandler {
     this.loupe.recordException(error, null, 'Uncaught Exception');
   }
 }
-
 </pre>
 
 The <code>recordException</code> method wraps up some intelligence to extract error details and a stack trace (if available) from the supplied error. The supplied <code>LoupeErrorHandler</code> identifies different error types and 
