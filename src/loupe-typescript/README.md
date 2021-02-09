@@ -38,7 +38,6 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 export class AppComponent {
 
   constructor(private readonly loupe: LoupeService) {
-    loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
     loupe.setCORSOrigin('https://myserver.com');
   }
   
@@ -87,7 +86,6 @@ loupe.information(
 * verbose(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?:MethodSourceInfo | null) - write a categorized Verbose message to Loupe.
 * write(severity: LogMessageSeverity, category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any |null, methodSourceInfo?: MethodSourceInfo | null) - write a categorized message to Loupe.
 * recordException(exception: any, details?: any, category?: string) - write an exception to Loupe. Parses out a stack trace from the exception.
-* setSessionId(value: string) - set the client session id.
 * setCORSOrigin(value: string | null) - set the target endpoint for log message. If not set, the current host is used with the default log point of <code>/Loupe/Log</code>.
 * setAuthorizationHeader(header: Header) - sets the <code>Authorization</code> header to send when logging to Loupe.
 
@@ -111,12 +109,6 @@ The first step to using Loupe is to create an instance of the agent, passing in 
 
 <pre>
 const loupe = new LoupeAgent(window, document);
-</pre>
-
-Next, set an id for the client session. The <code>id</code> can be any unique number, but we recommend a guid:
-
-<pre>
-loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
 </pre>
 
 If your server project is hosted on a different domain or port, then you'll need to set the target:

@@ -6,7 +6,6 @@ import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript';
 var App = () => {
   console.log("App Rendered");
   const loupe = new LoupeAgent(window, document);
-  loupe.setSessionId('5745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
   loupe.setCORSOrigin('https://localhost:44325/');
   const someObject = { name: "test", code: 123, nestedObj: { a: 1} };
   loupe.verbose('React', 'verbose caption', 'verbose description',null, null, someObject, null);

@@ -34,10 +34,6 @@ export class LoupeService {
     this.loupe.setCORSOrigin(origin);
   }
 
-  setSessionId(id: string): void {
-    this.loupe.setSessionId(id);
-  }
-
   setAuthorizationHeader(header: Header): void {
     this.loupe.setAuthorizationHeader(header);
   }

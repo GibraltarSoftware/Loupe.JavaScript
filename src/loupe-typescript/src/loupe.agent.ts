@@ -491,6 +491,7 @@ export class LoupeAgent {
   }
 
   private setUpClientSessionId(): void {
+    this.sessionId = this.generateUUID();
     const currentClientSessionId = this.getClientSessionHeader();
 
     if (currentClientSessionId) {

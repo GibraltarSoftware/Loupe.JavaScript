@@ -42,9 +42,6 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 
 <pre>
   constructor(private readonly loupe: LoupeService) {
-    // to set a unique ID for the session
-    this.loupe.setSessionId(this.getGuid());
-
     // to set the Loupe target, if not the same domain or port
     this.loupe.setCORSOrigin('https://mysite.com');
 
@@ -141,7 +138,6 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 export class AppComponent {
 
   constructor(private readonly loupe: LoupeService) {
-    loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
     loupe.setCORSOrigin('https://myserver.com');
   }
   
@@ -203,7 +199,6 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 export class AppComponent {
 
   constructor(private readonly loupe: LoupeService) {
-    loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
     loupe.setCORSOrigin('https://myserver.com');
 
     this.router.events

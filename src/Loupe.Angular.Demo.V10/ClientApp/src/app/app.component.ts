@@ -14,7 +14,6 @@ export class AppComponent {
     private router: Router,
     private loupe: LoupeService
   ) {
-    loupe.setSessionId('6745bc1e-e719-4bfe-b1ee-8bea50f2b17b');
     loupe.setCORSOrigin('https://localhost:44325');
 
     this.router.events.pipe(
