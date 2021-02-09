@@ -24,11 +24,25 @@ npm install @gibraltarsoftware/loupe-typescript
 
 2. Create a wrapper service:
 
+<pre>
+import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript/dist/loupe.agent';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LoupeService {
+  public loupe: LoupeAgent;
+
+  constructor() {
+    this.loupe = new LoupeAgent(window, window.document);
+  }
+}
+</pre>
 
 3. Configure the agent as early as possible in the application lifecycle. We recommend **app.component.ts**:
 
 <pre>
-import { LoupeService } from '@gibraltarsoftware/loupe-angular';
+import { LoupeService } from '../LoupeService/loupe.service';
 
 @Component({
   selector: 'app-root', 
@@ -38,7 +52,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 export class AppComponent {
 
   constructor(private readonly loupe: LoupeService) {
-    loupe.setLogServer('https://myserver.com');
+    loupe.loupe.setLogServer('https://myserver.com');
   }
   
 }
