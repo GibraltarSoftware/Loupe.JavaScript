@@ -42,7 +42,7 @@ export class LoupeAgent {
 
     this.setUpClientSessionId();
     this.setUpSequenceNumber();
-    this.addSendMessageCommandToEventQueue();
+    this.flushToServer();
   }
 
   /**
@@ -256,13 +256,13 @@ export class LoupeAgent {
 
     this.createMessage(severity, category, caption, description, parameters, exception, details, methodSourceInfo);
 
-    this.addSendMessageCommandToEventQueue();
+    this.flushToServer();
   }
 
   /**
    * Sends any messages stored in Local Storage to the server
    */
-  public addSendMessageCommandToEventQueue(): void {
+  public flushToServer(): void {
     // check for unsent messages on start up
     if ((this.storageAvailable && localStorage.length) || this.messageStorage.length) {
       setTimeout(() => this.logMessageToServer(), this.messageInterval);
@@ -1020,7 +1020,7 @@ export class LoupeAgent {
     }
 
     if (moreMessages) {
-      this.addSendMessageCommandToEventQueue();
+      this.flushToServer();
     }
   }
 

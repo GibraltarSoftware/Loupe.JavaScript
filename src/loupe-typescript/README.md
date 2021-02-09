@@ -91,7 +91,7 @@ loupe.information(
 
 * clientSessionHeader() - gets the <code>Header</code> used as the agent session id.
 * resetMessageInterval(interval: number) - resets the interval used to batch up and send messages. This interval starts at 10 milliseconds and increases if there are failures to send; messages are stored in the browser local storage and resent in order when communication is restored.
-* addSendMessageCommandToEventQueue() - immediately send any queued messages.
+* flushToServer() - immediately send any queued messages to the server.
 
 The <code>critical</code>, <code>error</code>, <code>information</code>, <code>warning</code> and <code>verbose</code> methods are all convenience wrappers over the <code>write</code> method. For these, the parameters are:
 

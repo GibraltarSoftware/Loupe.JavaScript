@@ -38,6 +38,10 @@ export class LoupeService {
     this.loupe.addHeader(header);
   }
 
+  flushToServer(): void {
+    this.loupe.flushToServer();
+  }
+
   information(
     category: string,
     caption: string,
