@@ -14,7 +14,7 @@ export class AppComponent {
     private router: Router,
     private loupe: LoupeService
   ) {
-    loupe.setCORSOrigin('https://localhost:44325');
+    loupe.setLogServer('https://localhost:44325');
 
     this.router.events.pipe(
       filter(x => x instanceof NavigationStart)

@@ -38,7 +38,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 export class AppComponent {
 
   constructor(private readonly loupe: LoupeService) {
-    loupe.setCORSOrigin('https://myserver.com');
+    loupe.setLogServer('https://myserver.com');
   }
   
 }
@@ -86,7 +86,7 @@ loupe.information(
 * verbose(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?:MethodSourceInfo | null) - write a categorized Verbose message to Loupe.
 * write(severity: LogMessageSeverity, category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any |null, methodSourceInfo?: MethodSourceInfo | null) - write a categorized message to Loupe.
 * recordException(exception: any, details?: any, category?: string) - write an exception to Loupe. Parses out a stack trace from the exception.
-* setCORSOrigin(value: string | null) - set the target endpoint for log message. If not set, the current host is used with the default log point of <code>/Loupe/Log</code>.
+* setLogServer(value: string | null) - set the target endpoint for log message. If not set, the current host is used with the default log point of <code>/Loupe/Log</code>.
 * setAuthorizationHeader(header: Header) - sets the <code>Authorization</code> header to send when logging to Loupe.
 
 * clientSessionHeader() - gets the <code>Header</code> used as the agent session id.
@@ -114,7 +114,7 @@ const loupe = new LoupeAgent(window, document);
 If your server project is hosted on a different domain or port, then you'll need to set the target:
 
 <pre>
-loupe.setCORSOrigin('https://myserver.com/');
+loupe.setLogServer('https://myserver.com/');
 </pre>
 
 Next, start logging:

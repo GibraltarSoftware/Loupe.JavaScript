@@ -281,7 +281,7 @@ export class LoupeAgent {
    * Sets the server URI for logging
    * @param value The base URI hosting the server logging component
    */
-  public setCORSOrigin(value: string | null): void {
+  public setLogServer(value: string | null): void {
     this.corsOrigin = value;
   }
 

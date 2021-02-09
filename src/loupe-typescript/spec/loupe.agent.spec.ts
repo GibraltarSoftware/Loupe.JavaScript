@@ -22,7 +22,7 @@ describe('when loupe.information(...)', () => {
     it('should make call to loupe.write(...)', () => {
         // Arrange
         const loupe = new LoupeAgent(mockWindow, mockDocument);
-        loupe.setCORSOrigin('http://localhost:3500/');
+        loupe.setLogServer('http://localhost:3500/');
         spyOn(loupe, 'write');
         const severity = LogMessageSeverity.information;
         const category = "aaaaa";
@@ -62,7 +62,7 @@ describe('when loupe.verbose(...)', () => {
     it('should make call to loupe.write(...)', () => {
         // Arrange
         const loupe = new LoupeAgent(mockWindow, mockDocument);
-        loupe.setCORSOrigin('http://localhost:3500/');
+        loupe.setLogServer('http://localhost:3500/');
         spyOn(loupe, 'write');
         const severity = LogMessageSeverity.verbose;
         const category = "aaaaa";
@@ -102,7 +102,7 @@ describe('when loupe.warning(...)', () => {
     it('should make call to loupe.write(...)', () => {
         // Arrange
         const loupe = new LoupeAgent(mockWindow, mockDocument);
-        loupe.setCORSOrigin('http://localhost:3500/');
+        loupe.setLogServer('http://localhost:3500/');
         spyOn(loupe, 'write');
         const severity = LogMessageSeverity.warning;
         const category = "aaaaa";
@@ -142,7 +142,7 @@ describe('when loupe.error(...)', () => {
     it('should make call to loupe.write(...)', () => {
         // Arrange
         const loupe = new LoupeAgent(mockWindow, mockDocument);
-        loupe.setCORSOrigin('http://localhost:3500/');
+        loupe.setLogServer('http://localhost:3500/');
         spyOn(loupe, 'write');
         const severity = LogMessageSeverity.error;
         const category = "aaaaa";
@@ -182,7 +182,7 @@ describe('when loupe.critical(...)', () => {
     it('should make call to loupe.write(...)', () => {
         // Arrange
         const loupe = new LoupeAgent(mockWindow, mockDocument);
-        loupe.setCORSOrigin('http://localhost:3500/');
+        loupe.setLogServer('http://localhost:3500/');
         spyOn(loupe, 'write');
         const severity = LogMessageSeverity.critical;
         const category = "aaaaa";
@@ -222,7 +222,7 @@ describe('when loupe.write(...)', () => {
     xit('should ???', () => {
         // Arrange
         const loupe = new LoupeAgent(mockWindow, mockDocument);
-        loupe.setCORSOrigin('http://localhost:3500/');
+        loupe.setLogServer('http://localhost:3500/');
         const category = "aaaaa";
         const caption = "bbbbb";
         const description = "ccccc";

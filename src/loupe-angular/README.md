@@ -43,7 +43,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 <pre>
   constructor(private readonly loupe: LoupeService) {
     // to set the Loupe target, if not the same domain or port
-    this.loupe.setCORSOrigin('https://mysite.com');
+    this.loupe.setLogServer('https://mysite.com');
 
     // to set authentication details if required by the server
     this.loupe.setAuthorizationHeader(new Header('Basic', 'QWxhZGRpbjpPcGVuU2VzYW1l'));
@@ -125,7 +125,7 @@ When you run your application you will now see a message logged to Loupe; if you
 
 ## Examples
 
-You should set your session ID and CORS origin (if applicable) as soon as your application starts. The **AppComponent** is a good place to do this.
+You should set your session ID and the log server (if applicable) as soon as your application starts. The **AppComponent** is a good place to do this.
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -138,13 +138,13 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 export class AppComponent {
 
   constructor(private readonly loupe: LoupeService) {
-    loupe.setCORSOrigin('https://myserver.com');
+    loupe.setLogServer('https://myserver.com');
   }
   
 }
 </pre>
 
-The <code>setCORSOrigin</code> call should be used when your application is not hosted in that same domain or port
+The <code>setLogServer</code> call should be used when your application is not hosted in that same domain or port
 as the server application that collects the logs. Note that your server application will need to support CORS for your client application.
 
 ### Error Handlers
@@ -199,7 +199,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
 export class AppComponent {
 
   constructor(private readonly loupe: LoupeService) {
-    loupe.setCORSOrigin('https://myserver.com');
+    loupe.setLogServer('https://myserver.com');
 
     this.router.events
     .pipe(filter(x => x instanceof NavigationStart))

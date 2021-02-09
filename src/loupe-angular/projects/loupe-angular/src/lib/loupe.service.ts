@@ -30,8 +30,8 @@ export class LoupeService {
     );
   }
 
-  setCORSOrigin(origin: string): void {
-    this.loupe.setCORSOrigin(origin);
+  setLogServer(origin: string): void {
+    this.loupe.setLogServer(origin);
   }
 
   setAuthorizationHeader(header: Header): void {
