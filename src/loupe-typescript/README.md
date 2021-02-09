@@ -25,7 +25,7 @@ npm install @gibraltarsoftware/loupe-typescript
 2. Create a wrapper service:
 
 
-N. Configure the agent as early as possible in the application lifecycle. We recommend **app.component.ts**:
+3. Configure the agent as early as possible in the application lifecycle. We recommend **app.component.ts**:
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -74,7 +74,7 @@ import loupe  from "./LoupeService";
 const counterObject = { name: "counter", value: this.state.currentCount };
 loupe.information(
     "Angular", "Incrementing Counter", 'Counter is now {0}',
-    [this.state.currentCount], null, counterObject, null
+    [this.state.currentCount], null, counterObject
 );
 </pre>
 
