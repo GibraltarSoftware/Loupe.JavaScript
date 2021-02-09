@@ -34,8 +34,8 @@ export class LoupeService {
     this.loupe.setLogServer(origin);
   }
 
-  setAuthorizationHeader(header: Header): void {
-    this.loupe.setAuthorizationHeader(header);
+  addHeader(header: Header): void {
+    this.loupe.addHeader(header);
   }
 
   information(

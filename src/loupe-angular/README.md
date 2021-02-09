@@ -45,9 +45,6 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
     // to set the Loupe target, if not the same domain or port
     this.loupe.setLogServer('https://mysite.com');
 
-    // to set authentication details if required by the server
-    this.loupe.setAuthorizationHeader(new Header('Basic', 'QWxhZGRpbjpPcGVuU2VzYW1l'));
-
     // log a message
     this.loupe.information(this.title, 'App Started', 'The client application has started');
   }

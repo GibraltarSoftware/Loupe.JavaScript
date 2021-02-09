@@ -87,7 +87,7 @@ loupe.information(
 * write(severity: LogMessageSeverity, category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any |null, methodSourceInfo?: MethodSourceInfo | null) - write a categorized message to Loupe.
 * recordException(exception: any, details?: any, category?: string) - write an exception to Loupe. Parses out a stack trace from the exception.
 * setLogServer(value: string | null) - set the target endpoint for log message. If not set, the current host is used with the default log point of <code>/Loupe/Log</code>.
-* setAuthorizationHeader(header: Header) - sets the <code>Authorization</code> header to send when logging to Loupe.
+* addHeader(header: Header) - add the <code>header</code> to the request when logging to Loupe.
 
 * clientSessionHeader() - gets the <code>Header</code> used as the agent session id.
 * resetMessageInterval(interval: number) - resets the interval used to batch up and send messages. This interval starts at 10 milliseconds and increases if there are failures to send; messages are stored in the browser local storage and resent in order when communication is restored.

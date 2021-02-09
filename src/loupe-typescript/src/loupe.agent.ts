@@ -27,7 +27,7 @@ export class LoupeAgent {
   private storageFull = false;
   private corsOrigin: string | null = null;
   private globalKeyList: string[] = [];
-  private authHeader!: Header;
+  private headers!: Header[];
 
   /**
    * Creates a new instance of the Loupe logger
@@ -289,17 +289,17 @@ export class LoupeAgent {
    * Sets an authorization header to be used on all logging requests
    * @param header The authorization header
    */
-  public setAuthorizationHeader(header: Header): void {
+  public addHeader(header: Header): void {
     if (header) {
       if (header.name && header.value) {
-        this.authHeader = header;
+        this.headers.push(header);
       } else {
         this.consoleLog(
-          "setAuthorizationHeader failed. The header provided appears invalid as it doesn't have name & value",
+          "addHeader failed. The header provided appears invalid as it doesn't have name & value",
         );
       }
     } else {
-      this.consoleLog('setAuthorizationHeader failed. No header object provided');
+      this.consoleLog('addHeader failed. No header object provided');
     }
   }
 
@@ -1089,16 +1089,18 @@ export class LoupeAgent {
     }
 
     const xhr = new XMLHttpRequest();
+
+    if (this.headers) {
+      this.headers.forEach((header: Header) => {
+        xhr.setRequestHeader(header.name, header.value);
+      });
+    }
+
     if ('withCredentials' in xhr) {
       // Check if the XMLHttpRequest object has a "withCredentials" property.
       // "withCredentials" only exists on XMLHTTPRequest2 objects.
       xhr.open('POST', url, true);
       xhr.setRequestHeader('Content-type', 'application/json');
-
-      // if we have an auth header then add it to the request
-      if (this.authHeader) {
-        xhr.setRequestHeader(this.authHeader.name, this.authHeader.value);
-      }
     } else {
       // Otherwise, CORS is not supported by the browser.
       return null;
