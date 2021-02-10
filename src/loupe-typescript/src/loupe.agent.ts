@@ -27,7 +27,7 @@ export class LoupeAgent {
   private storageFull = false;
   private corsOrigin: string | null = null;
   private globalKeyList: string[] = [];
-  private headers!: Header[];
+  private headers: Header[] = [];
 
   /**
    * Creates a new instance of the Loupe logger
@@ -1090,17 +1090,16 @@ export class LoupeAgent {
 
     const xhr = new XMLHttpRequest();
 
-    if (this.headers) {
-      this.headers.forEach((header: Header) => {
-        xhr.setRequestHeader(header.name, header.value);
-      });
-    }
-
     if ('withCredentials' in xhr) {
       // Check if the XMLHttpRequest object has a "withCredentials" property.
       // "withCredentials" only exists on XMLHTTPRequest2 objects.
       xhr.open('POST', url, true);
       xhr.setRequestHeader('Content-type', 'application/json');
+
+      // add any custom headers
+      this.headers.forEach((header: Header) => {
+        xhr.setRequestHeader(header.name, header.value);
+      });
     } else {
       // Otherwise, CORS is not supported by the browser.
       return null;
