@@ -1,6 +1,6 @@
 {
   "name": "@gibraltarsoftware/loupe-angular",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14"
