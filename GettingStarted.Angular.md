@@ -7,7 +7,7 @@ If you have an existing ASP.NET Core application with an Angular client applicat
 1. From the **File** menu select **New** and **Project...** to launch the new project screen.
 2. Select **ASP.NET Core Web Application** and click **next**.
 3. Enter your project name and location, and click **Create**.
-4. From the **Create a new ASP.NET Coew web application** screen select **Angular** and click **Create**.
+4. From the **Create a new ASP.NET Core Web Application** screen select **Angular** and click **Create**.
 5. Install the server component for Loupe logging:
    1. Right mouse-click on the project name and select **Manage NuGet Packages...**
    2. On the **NuGet Package Manager** screen select **Browse**
