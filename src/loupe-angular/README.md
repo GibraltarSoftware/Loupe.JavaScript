@@ -122,7 +122,7 @@ When you run your application you will now see a message logged to Loupe; if you
 
 ## Examples
 
-You should set your session ID and the log server (if applicable) as soon as your application starts. The **AppComponent** is a good place to do this.
+You should set the log server (if applicable) as soon as your application starts. The **AppComponent** is a good place to do this.
 
 <pre>
 import { LoupeService } from '@gibraltarsoftware/loupe-angular';
@@ -262,6 +262,35 @@ Once defined, you provide the handler in your providers array in AppModule:
 export class AppModule { }
 
 </pre>
+
+### Source Information
+When an exception is passed into one of the logging methods, the agent will extract the source code information from the stack trace. 
+Without the exception this is not an automatic procedure for performance reasons. However, you can manually supply the details using the
+<code>MethodSourceInfo</code> parameter. For example:
+
+<pre>
+  public incrementCounter() {
+    this.currentCount++;
+
+    const someObject = { name: "test", code: 123 };
+    this.loupe.information(
+      "Angular", "Incrementing Counter", 'Counter is now {0}',
+      [this.currentCount], null, JSON.stringify(someObject), 
+      new MethodSourceInfo("counter.component.ts", "incrementCounter", 23)
+    );
+  }
+</pre>
+
+<code>MethodSourceInfo</code> takes four parameters:
+
+1. File name
+2. Method name
+3. An optional line number
+4. An optional column number
+
+Do remember though, that the line and column numbers don't update if you change your code.
+
+### More Examples
 
 For more usage examples see the Sample ASP.NET Core Applications:
 * [ASP.NET Core application with Angular 8 frontend](../Loupe.Angular.Demo)</li>

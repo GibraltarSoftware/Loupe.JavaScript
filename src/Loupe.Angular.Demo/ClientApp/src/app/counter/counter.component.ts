@@ -1,3 +1,4 @@
+import { MethodSourceInfo } from './../../../../../loupe-typescript/src/MethodSourceInfo';
 import { Component } from '@angular/core';
 import { LoupeService } from "@gibraltarsoftware/loupe-angular";
 
@@ -18,7 +19,8 @@ export class CounterComponent {
     const someObject = { name: "test", code: 123 };
     this.loupe.information(
       "Angular", "Incrementing Counter", 'Counter is now {0}',
-      [this.currentCount], null, JSON.stringify(someObject), null
+      [this.currentCount], null, JSON.stringify(someObject), 
+      new MethodSourceInfo("counter.component.ts", "incrementCounter", 23)
     );
   }
 
