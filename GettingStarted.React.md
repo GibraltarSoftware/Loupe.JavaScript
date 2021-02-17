@@ -17,43 +17,43 @@ If you have an existing ASP.NET Core application with a React client application
    1. Open **Startup.cs**
    2. In the <code>ConfigureServices</code> method, add the following line:
 
-<pre>      services.AddLoupe().AddClientLogging();</pre>
+   <pre>   services.AddLoupe().AddClientLogging();</pre>
 
    3. In the <code>Configure</code> method, find the section that has <code>app.UseEndpoints</code>, and add the following line:
 
-<pre>      endpoints.MapLoupeClientLogger();</pre>
+   <pre>   endpoints.MapLoupeClientLogger();</pre>
 
 7. Install the Loupe client logging components:
    1. Right mouse-click on the **ClientApp** folder, and select **Open in Terminal**.
    2. From the Developer Powershell, type the following command and wait for the command to finish:
 
-<pre>      npm install @gibraltarsoftware/loupe-typescript</pre>
+   <pre>   npm install @gibraltarsoftware/loupe-typescript</pre>
 
 8. Configure the client components for Loupe logging:
    1. Create a module to instantiate the Loupe agent, but adding a file **LoupeService.js** to the **ClientApp/src** folder.
    2. Add the following to the new **LoupeService.js** file:
 
-<pre>
+   <pre>
       import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript';
 
       var loupe = new LoupeAgent(window, window.document);
 
       export default loupe;
-</pre>
+   </pre>
 
    3. Open **ClientApp/src/App.js**
    4. Import the new module by adding the following line after the other <code>import</code> statements:
 
-<pre>      import loupe from "./LoupeService";</pre>
+   <pre>   import loupe from "./LoupeService";</pre>
 
-   5. Add a constructor to the <code>App</code>logs an initial message:
+   5. Add a constructor to the <code>App</code>, which logs an initial message:
 
-<pre>
+   <pre>
       constructor() {
          super();
          loupe.information(this.displayName,
             'Application Started', 'The application has started');
       }
-</pre>
+   </pre>
 
 9. Run the application. When it starts you will notice a log message being sent to the server. This message can be seen in the browser developer tools (F12) network tab, and in [Loupe Desktop](https://onloupe.com/local-logging/free-net-log-viewer) if you have it installed.
