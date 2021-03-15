@@ -471,7 +471,7 @@ export class LoupeAgent {
         column,
         line,
         message: msg,
-        stackTrace: this.getStackTrace(error, msg),
+        stackTrace: stack,
         url,
       };
 
