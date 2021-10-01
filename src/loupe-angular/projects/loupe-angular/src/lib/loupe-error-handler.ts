@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { LoupeService } from './loupe.service';
 
+// error handler to automatically log uncaught errors to Loupe
+
 @Injectable()
 export class LoupeErrorHandler extends ErrorHandler {
 

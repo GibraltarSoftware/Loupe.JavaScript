@@ -58,6 +58,23 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
   ]
 </pre>
 
+6. Optionally configure the interceptor in your application module (**app.module.ts**). You only need to do this step if you want to automatically have the Loupe Session ID added as a header to all HTTP requests; this is useful to help allow the server Loupe componennt to correlate requests.
+
+<pre>
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoupeHeaderHttpConfigInterceptor, multi: true }
+  ]
+</pre>
+
+if using both the error handler and the interceptor, then both need to be included in the providers:
+
+<pre>
+  providers: [
+    { provide: ErrorHandler, useClass: LoupeErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: LoupeHeaderHttpConfigInterceptor, multi: true }
+  ]
+</pre>
+
 ### .NET Core and Angular
 
 For a .NET Core Web Application using Angular, you need to install both the server and client components. 
@@ -154,7 +171,18 @@ To use the error handler, modify you **app.module.ts** and add the Loupe error h
   ]
 </pre>
 
-You can of course, create your own error handler to log uncaught errors to Loupe
+You can of course, create your own error handler to log uncaught errors to Loupe.
+
+### Correlating requests
+
+To allow the Loupe server component to correlate requests, you can include the Loupe HTTP Interceptor in your providers, which will add the Loupe Agent and Session IDs to all HTTP requests.
+
+<pre>
+  providers: [
+    { provide: ErrorHandler, useClass: LoupeErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: LoupeHeaderHttpConfigInterceptor, multi: true }
+  ]
+</pre>
 
 ### Service Usage
 In other components you follow the same injection pattern, by using the Loupe service:

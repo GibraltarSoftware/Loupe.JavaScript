@@ -14,7 +14,7 @@ npm install @gibraltarsoftware/loupe-typescript
 
 ### Installation in Angular
 
-While we receommend using [loupe-angular](../loupe-angular) for Angular applications, you can of course use the basic agent. You'll want to use the agent throughout your application, so it needs to be globally available, and the simplest way to do this is to wrap it in a service.
+While we receommend using [loupe-angular](../loupe-angular) for Angular applications as it wraps up additional functionality, such as auto-handling of uncaught exceptions and the addition of correlation IDs to your HTTP requests. You can of course use the basic agent. You'll want to use the agent throughout your application, so it needs to be globally available, and the simplest way to do this is to wrap it in a service.
 
 1. Install the agent:
 

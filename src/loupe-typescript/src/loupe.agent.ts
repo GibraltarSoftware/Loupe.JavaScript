@@ -13,15 +13,19 @@ import { MethodSourceInfo } from './MethodSourceInfo';
  */
 export class LoupeAgent {
   public propagateError = false;
+  public readonly loupeAgentSessionIdHeader = 'loupe-agent-sessionId';
+  public readonly loupeSessionIdHeader = 'LoupeSessionId';
+  public sessionId!: string;
+  public agentSessionId!: string;
 
   private maxRequestSize = 204800;
   private messageInterval = 10;
   private exceptionCategory = 'Javascript.Exception';
+  private readonly loupeAgentSessionIdKey = 'LoupeAgentSessionId';
 
   private existingOnError!: OnErrorEventHandler | null;
   private sequenceNumber = 0;
-  private sessionId!: string;
-  private agentSessionId!: string;
+
   private messageStorage: string[] = [];
   private storageAvailable = this.storageSupported();
   private storageFull = false;
@@ -292,11 +296,18 @@ export class LoupeAgent {
   public addHeader(header: Header): void {
     if (header) {
       if (header.name && header.value) {
+        if (header.name === this.loupeAgentSessionIdHeader) {
+          this.consoleLog('Custom header cannot be named ' + this.loupeAgentSessionIdHeader);
+          return;
+        }
+        if (header.name === this.loupeSessionIdHeader) {
+          this.consoleLog('Custom header cannot be named ' + this.loupeSessionIdHeader);
+          return;
+        }
+
         this.headers.push(header);
       } else {
-        this.consoleLog(
-          "addHeader failed. The header provided appears invalid as it doesn't have name & value",
-        );
+        this.consoleLog("addHeader failed. The header provided appears invalid as it doesn't have name & value");
       }
     } else {
       this.consoleLog('addHeader failed. No header object provided');
@@ -307,7 +318,7 @@ export class LoupeAgent {
    * Gets the client session ID
    */
   public clientSessionHeader(): Header {
-    return new Header('loupe-agent-sessionId', this.agentSessionId);
+    return new Header(this.loupeAgentSessionIdHeader, this.agentSessionId);
   }
 
   /**
@@ -505,8 +516,8 @@ export class LoupeAgent {
   private storeClientSessionId(sessionIdToStore: string): void {
     if (this.storageAvailable && !this.storageFull) {
       try {
-        sessionStorage.setItem('LoupeAgentSessionId', sessionIdToStore);
-      } catch (e) {
+        sessionStorage.setItem(this.loupeAgentSessionIdKey, sessionIdToStore);
+      } catch (e: any) {
         if (this.checkForStorageQuotaReached(e)) {
           return;
         }
@@ -518,11 +529,12 @@ export class LoupeAgent {
 
   private getClientSessionHeader(): string | null {
     try {
-      const clientSessionId = sessionStorage.getItem('LoupeAgentSessionId');
+      const clientSessionId = sessionStorage.getItem(this.loupeAgentSessionIdKey);
+
       if (clientSessionId) {
         return clientSessionId;
       }
-    } catch (e) {
+    } catch (e: any) {
       this.consoleLog('Unable to retrieve clientSessionId number from session storage. ' + e.message);
     }
 
@@ -1095,6 +1107,10 @@ export class LoupeAgent {
       // "withCredentials" only exists on XMLHTTPRequest2 objects.
       xhr.open('POST', url, true);
       xhr.setRequestHeader('Content-type', 'application/json');
+
+      // add the loupe agent and session headers
+      xhr.setRequestHeader(this.loupeAgentSessionIdHeader, this.agentSessionId);
+      xhr.setRequestHeader(this.loupeSessionIdHeader, this.sessionId);
 
       // add any custom headers
       this.headers.forEach((header: Header) => {
