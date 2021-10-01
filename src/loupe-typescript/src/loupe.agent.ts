@@ -517,7 +517,7 @@ export class LoupeAgent {
     if (this.storageAvailable && !this.storageFull) {
       try {
         sessionStorage.setItem(this.loupeAgentSessionIdKey, sessionIdToStore);
-      } catch (e: any) {
+      } catch (e) {
         if (this.checkForStorageQuotaReached(e)) {
           return;
         }
@@ -534,7 +534,7 @@ export class LoupeAgent {
       if (clientSessionId) {
         return clientSessionId;
       }
-    } catch (e: any) {
+    } catch (e) {
       this.consoleLog('Unable to retrieve clientSessionId number from session storage. ' + e.message);
     }
 
