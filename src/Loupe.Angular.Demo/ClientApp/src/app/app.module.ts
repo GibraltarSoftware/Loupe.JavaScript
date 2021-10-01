@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
+import { LoupeHeaderHttpConfigInterceptor } from "@gibraltarsoftware/loupe-angular";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
     ])
   ],
   providers: [
-    { provide: ErrorHandler, useClass: LoupeErrorHandler }
+    { provide: ErrorHandler, useClass: LoupeErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: LoupeHeaderHttpConfigInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

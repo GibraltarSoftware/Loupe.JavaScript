@@ -6,3 +6,4 @@ export * from './lib/loupe.service';
 export * from './lib/loupe-angular.component';
 export * from './lib/loupe-angular.module';
 export * from './lib/loupe-error-handler';
+export * from './lib/loupe-angular.interceptor';

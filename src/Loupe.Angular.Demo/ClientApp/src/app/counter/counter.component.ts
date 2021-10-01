@@ -1,6 +1,6 @@
-import { MethodSourceInfo } from './../../../../../loupe-typescript/src/MethodSourceInfo';
 import { Component } from '@angular/core';
 import { LoupeService } from "@gibraltarsoftware/loupe-angular";
+import { MethodSourceInfo } from "@gibraltarsoftware/loupe-typescript";
 
 @Component({
   selector: 'app-counter-component',
