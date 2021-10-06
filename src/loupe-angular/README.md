@@ -16,6 +16,8 @@ If you are using a previous version of Angular, for example, version 9, then you
 npm install @gibraltarsoftware/loupe-angular@9.0.0
 </pre>
 
+> For Angular 10, use <code>@gibraltarsoftware/loupe-angular@10.0.1</code>
+
 We do not publish a version of the **loupe-angular** library for unreleased and beta versions of Angular. If you are using these beta versions and wish to use Loupe for client logging, then you should clone this repository and manually import the source from the projects\loupe-angular\src\lib folder.
 
 All Loupe client logging is designed to send log information to a server which handles logging to a Loupe server; please refer to the [main documentation](../../README.md) for references to the server logging portion, as installation and configuration depends upon your server.
