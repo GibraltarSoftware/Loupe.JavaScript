@@ -15,3 +15,4 @@ The demo builds upon the ASP.NET Core Angular template by adding in calls to lou
 * A call is made to <code>loupe.recordException</code> upon navigation to the */error-page* route (which does not exist). 
 This raises an uncaught exception which is automatically picked up by the LoupeErrorHandler.
 
+Additionally it adds the HTTP interceptor to ensure that all HTTP requests have the Loupe Agent IDs attached as headers.
