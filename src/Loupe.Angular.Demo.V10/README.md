@@ -1,6 +1,6 @@
 # Loupe.Angular.Demo.V10
 
-This is an ASP.NET Core application with an Angular 10 frontend that hooks into the @gibraltarsoftware/loupe-angular package to enable client side logging to Loupe.
+This is an ASP.NET Core application with an Angular 10 frontend that hooks into the @gibraltarsoftware/loupe-angular (10.0.1) package to enable client side logging to Loupe.
 
 ## Running the application
 
@@ -14,3 +14,5 @@ The demo builds upon the ASP.NET Core Angular template by adding in calls to lou
 
 * A call is made to <code>loupe.recordException</code> upon navigation to the */error-page* route (which does not exist). 
 This raises an uncaught exception which is automatically picked up by the LoupeErrorHandler.
+
+Additionally it adds the HTTP interceptor to ensure that all HTTP requests have the Loupe Agent IDs attached as headers.
