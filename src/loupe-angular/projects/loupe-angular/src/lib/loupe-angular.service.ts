@@ -15,7 +15,7 @@ export function getloupelibService() { return new LoupeService(getWindow()); }
 export class LoupeService {
 
   public loupe: LoupeAgent;
-  private readonly window: Window;
+  private readonly window: Window | null = null;
 
   constructor(window?: any) {
     if (this.window) {
@@ -25,7 +25,7 @@ export class LoupeService {
     }
 
     this.loupe = new LoupeAgent(
-      this.window, 
+      this.window,
       this.window.document
     );
   }
