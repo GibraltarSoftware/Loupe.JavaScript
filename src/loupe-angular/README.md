@@ -55,7 +55,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
     this.loupe.setLogServer('https://mysite.com');
 
     // log a message
-    this.loupe.information(this.title, 'App Started', 'The client application has started');
+    this.loupe.information("WebClient", 'App Started', 'The client application has started');
   }
 </pre>
 
