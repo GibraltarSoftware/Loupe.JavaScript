@@ -213,7 +213,7 @@ export class FirstComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loupe.information('JavaScript', 'Component Initialization', 'The first component is initializing');
+    this.loupe.information('WebClient', 'Component Initialization', 'The first component is initializing');
   }
 }
 </pre>
@@ -237,7 +237,7 @@ export class AppComponent {
     this.router.events
     .pipe(filter(x => x instanceof NavigationStart))
     .subscribe((evnt: RouterEvent) => {
-      this.loupe.information("Angular", "NavigationStart", evnt.url);
+      this.loupe.information("WebClient", "NavigationStart", evnt.url);
     });
   }
   

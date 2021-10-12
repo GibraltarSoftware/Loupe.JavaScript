@@ -134,13 +134,13 @@ loupe.setLogServer('https://myserver.com/');
 Next, start logging:
 
 <pre>
-loupe.information('Web', 'Application Started', 'The application has started');
+loupe.information('WebClient', 'Application Started', 'The application has started');
 </pre>
 
 The <code>description</code> supports C# style string formatting parameters, which should be passed as an array in <code>parameters</code>. For example:
 
 <pre>
-loupe.information('Web', 'Event Occurred', 'User event occurred\r\nUser: {0}\r\nEvent: {1}',
+loupe.information('WebClient', 'Event Occurred', 'User event occurred\r\nUser: {0}\r\nEvent: {1}',
     [user.name, event.name]);
 </pre>
 

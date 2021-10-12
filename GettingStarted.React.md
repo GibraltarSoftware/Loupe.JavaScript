@@ -51,7 +51,7 @@ If you have an existing ASP.NET Core application with a React client application
    <pre>
       constructor() {
          super();
-         loupe.information(this.displayName,
+         loupe.information("WebClient",
             'Application Started', 'The application has started');
       }
    </pre>
