@@ -7,13 +7,14 @@ import { Component, OnInit } from '@angular/core';
       loupe-angular works!
     </p>
   `,
-  styles: []
+  styles: [
+  ]
 })
 export class LoupeAngularComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

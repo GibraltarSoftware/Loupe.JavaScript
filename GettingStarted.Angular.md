@@ -39,7 +39,7 @@ If you have an existing ASP.NET Core application with an Angular client applicat
 
    <pre>
       constructor(private readonly loupe: LoupeService) {
-         this.loupe.information(this.title,
+         this.loupe.information("WebClient",
             'Application Started', 'The application has started');
       }
    </pre>

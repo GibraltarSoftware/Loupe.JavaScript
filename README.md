@@ -7,7 +7,7 @@ There are several projects:
 * [loupe-typescript](src/loupe-typescript/README.md). The base agent, usable directly in TypeScript and JavaScript applications.
 * [loupe-angular](src/loupe-angular/README.md). A wrapper module that wraps the agent for use in modern Angular, hooking into Angular's <code>ErrorHandler</code> and automatically logging an error, as well as exposing the Loupe Agent as an injectable service for use in components.
 * loupe-typescript-demos. Contains two demos showing use of the typescript agent, one in a plain JavaScript application, one in a React application.
-* [Loupe.Angular.Demo](src/Loupe.Angular.Demo/README.md). An Angular version 8 application that shows the use of the Loupe Agent Angular wrapper and agent usage.
+* [Loupe.Angular.Demo](src/Loupe.Angular.Demo/README.md). An Angular version 8 application that shows the use of the Loupe Agent Angular wrapper and agent usage. This is for the latest release of Angular, currently version 12.
 * [Loupe.Angular.Demo.V10](src/Loupe.Angular.Demo.V10/README.md). An Angular version 10 application that shows the use of the Loupe Agent Angular wrapper and agent usage.
 * [Loupe.React.Demo](src/Loupe.React.Demo/README.md). A React application that shows the use of the Loupe Agent usage in React.
 

@@ -10,11 +10,19 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/loupe-angular/tsconfig.lib.json",
             "project": "projects/loupe-angular/ng-package.json"
-          }
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/loupe-angular/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/loupe-angular/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -23,20 +31,9 @@
             "tsConfig": "projects/loupe-angular/tsconfig.spec.json",
             "karmaConfig": "projects/loupe-angular/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/loupe-angular/tsconfig.lib.json",
-              "projects/loupe-angular/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "loupe-angular"
 }

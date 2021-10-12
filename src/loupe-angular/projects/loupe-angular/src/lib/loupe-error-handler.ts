@@ -1,10 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
-import { LoupeService } from './loupe.service';
+import { LoupeService } from './loupe-angular.service';
 
 // error handler to automatically log uncaught errors to Loupe
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class LoupeErrorHandler extends ErrorHandler {
 
     constructor(
@@ -48,18 +50,29 @@ export class LoupeErrorHandler extends ErrorHandler {
     }
 
     private recordError(error: Error): void {
-        const parts = error.message.split('\n');
+        // check to see if there's a stack
+        const errorSource = error.stack || error.message;
+        const parts = errorSource.split('\n');
 
-        const firstStackLine = parts[2];
-        const httpStart = firstStackLine.indexOf('http');
-        const httpLength = firstStackLine.length - httpStart - 1;
+        let url: string = "";
+
+        if (parts.length > 2) {
+            // see if we have a url
+            const firstStackLine = parts[2];
+            const httpStart = firstStackLine.indexOf('http');
+
+            if (httpStart > -1) {
+                const httpLength = firstStackLine.length - httpStart - 1;
+                url = firstStackLine.substr(httpStart, httpLength);
+            }
+        }
 
         const ex = {
             name: error.name,
             caption: parts[1],
             description: parts[0],
-            url: firstStackLine.substr(httpStart, httpLength),
-            message: error.message
+            url: url,
+            message: errorSource
         };
 
         const details = null;

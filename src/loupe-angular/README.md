@@ -4,15 +4,24 @@
 The module automatically creates a Loupe client logger and provides a sample Angular <code>ErrorHandler</code> that can be enabled by configuring your application providers; this enables any uncaught errors in your Angular application to be logged to Loupe. It additionally exposes the Loupe Agent to your Angular application as an injectable service named <code>LoupeService</code>.
 
 ## Installation
-You can install the module via **npm**:
+You can install the module via **npm**. The version you install should be the same as the major version of your Angular project, as the **loupe-angular** library tracks the major versions of Angular. So if you are using the latest version of Angular, you can just use the following NPM command to install the latest version of the **loupe-angular** library:
 
 <pre>
 npm install @gibraltarsoftware/loupe-angular
 </pre>
 
+If you are using a previous version of Angular, for example, version 9, then you should install the explicit **loupe-angular** version:
+
+<pre>
+npm install @gibraltarsoftware/loupe-angular@9.0.0
+</pre>
+
+> For Angular 10, use <code>@gibraltarsoftware/loupe-angular@10.0.1</code>
+
+We do not publish a version of the **loupe-angular** library for unreleased and beta versions of Angular. If you are using these beta versions and wish to use Loupe for client logging, then you should clone this repository and manually import the source from the projects\loupe-angular\src\lib folder.
+
 All Loupe client logging is designed to send log information to a server which handles logging to a Loupe server; please refer to the [main documentation](../../README.md) for references to the server logging portion, as installation and configuration depends upon your server.
 
-The Loupe Angular client logging works in both Angular 8 and Angular 11.
 
 ## Installation and Execution Steps
 
@@ -46,11 +55,11 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
     this.loupe.setLogServer('https://mysite.com');
 
     // log a message
-    this.loupe.information(this.title, 'App Started', 'The client application has started');
+    this.loupe.information("WebClient", 'App Started', 'The client application has started');
   }
 </pre>
 
-5. Optionally configure the error handler in your application module (**app.module.ts**). You only need to do this step if you want to use the Loupe error handler for uncaught errors.
+5. Configure the error handler in your application module (**app.module.ts**). This will use the Loupe error handler for any uncaught uncaught errors, log them to Loupe, and allow the existing Angular error handlers to also handle the error.
 
 <pre>
   providers: [
@@ -58,7 +67,7 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
   ]
 </pre>
 
-6. Optionally configure the interceptor in your application module (**app.module.ts**). You only need to do this step if you want to automatically have the Loupe Session ID added as a header to all HTTP requests; this is useful to help allow the server Loupe componennt to correlate requests.
+6. Configure the interceptor in your application module (**app.module.ts**). This will automatically have the Loupe Session ID added as a header to all HTTP requests, which helps allow the server Loupe component to correlate requests.
 
 <pre>
   providers: [
@@ -66,13 +75,27 @@ import { LoupeService } from '@gibraltarsoftware/loupe-angular';
   ]
 </pre>
 
-if using both the error handler and the interceptor, then both need to be included in the providers:
+With both the error handler and the interceptor configured, your providers section will be:
 
 <pre>
   providers: [
     { provide: ErrorHandler, useClass: LoupeErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: LoupeHeaderHttpConfigInterceptor, multi: true }
   ]
+</pre>
+
+7. Import the references for the new providers:
+
+<pre>
+import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
+import { LoupeHeaderHttpConfigInterceptor } from '@gibraltarsoftware/loupe-angular';
+</pre>
+
+You will also need to add references for <code>ErrorHandler</code> and <code>HTTP_INTERCEPTORS</code>; the first should be added alongside the import for <code>NgModule</code>, and the latter as a new import. So your imports should now include:
+
+<pre>
+import { NgModule, ErrorHandler } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 </pre>
 
 ### .NET Core and Angular
@@ -116,6 +139,8 @@ app.UseEndpoints(endpoints =>
 npm install @gibraltarsoftware/loupe-angular
 </pre>
 
+Note that this tracks the latest full release of Angular. If using the Angular Web Template in Visual Studio 2019 you will need to explicitly install the version 9 of the **angular-loupe** library, since the Visual Studio template uses Angular 9.
+
 5. You can now import and use the service, starting in **app.component.ts**:
 
 <pre>
@@ -130,7 +155,7 @@ export class AppComponent {
   title = 'app';
 
   constructor(private readonly loupe: LoupeService) {
-    this.loupe.information(this.title, 'App Started', 'The application has started');
+    this.loupe.information("WebClient", 'App Started', 'The application has started');
   }
 }
 </pre>
@@ -163,13 +188,15 @@ as the server application that collects the logs. Note that your server applicat
 
 ### Error Handlers
 
-To use the error handler, modify you **app.module.ts** and add the Loupe error handler as a provider for the Angular <code>ErrorHandler</code>.
+To use the error handler and HTTP interceptors, modify your **app.module.ts** and add the Loupe error handler as a provider for the Angular <code>ErrorHandler</code>.
 
 <pre>
   providers: [
     { provide: ErrorHandler, useClass: LoupeErrorHandler }
   ]
 </pre>
+
+Remember to import the references for <code>ErrorHandler</code> and <code>LoupeErrorHandler</code>.
 
 You can of course, create your own error handler to log uncaught errors to Loupe.
 
@@ -183,6 +210,8 @@ To allow the Loupe server component to correlate requests, you can include the L
     { provide: HTTP_INTERCEPTORS, useClass: LoupeHeaderHttpConfigInterceptor, multi: true }
   ]
 </pre>
+
+Remember to import the references for <code>HTTP_INTERCEPTORS</code> and <code>LoupeHeaderHttpConfigInterceptor</code>.
 
 ### Service Usage
 In other components you follow the same injection pattern, by using the Loupe service:
@@ -202,7 +231,7 @@ export class FirstComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loupe.information('JavaScript', 'Component Initialization', 'The first component is initializing');
+    this.loupe.information('WebClient', 'Component Initialization', 'The first component is initializing');
   }
 }
 </pre>
@@ -226,12 +255,11 @@ export class AppComponent {
     this.router.events
     .pipe(filter(x => x instanceof NavigationStart))
     .subscribe((evnt: RouterEvent) => {
-      this.loupe.information("Angular", "NavigationStart", evnt.url);
+      this.loupe.information("WebClient", "NavigationStart", evnt.url);
     });
   }
   
 }
-
 </pre>
 
 ### Error Handlers

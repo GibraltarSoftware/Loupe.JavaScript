@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { LoupeService } from './loupe.service';
+import { LoupeService } from './loupe-angular.service';
 
 // http interceptor to automatically add the Loupe Session and Agent IDs to HTTP requests, to aid in request correlation
 
