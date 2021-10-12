@@ -84,6 +84,20 @@ With both the error handler and the interceptor configured, your providers secti
   ]
 </pre>
 
+7. Import the references for the new providers:
+
+<pre>
+import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
+import { LoupeHeaderHttpConfigInterceptor } from '@gibraltarsoftware/loupe-angular';
+</pre>
+
+You will also need to add references for <code>ErrorHandler</code> and <code>HTTP_INTERCEPTORS</code>; the first should be added alongside the import for <code>NgModule</code>, and the latter as a new import. So your imports should now include:
+
+<pre>
+import { NgModule, ErrorHandler } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+</pre>
+
 ### .NET Core and Angular
 
 For a .NET Core Web Application using Angular, you need to install both the server and client components. 
@@ -141,7 +155,7 @@ export class AppComponent {
   title = 'app';
 
   constructor(private readonly loupe: LoupeService) {
-    this.loupe.information(this.title, 'App Started', 'The application has started');
+    this.loupe.information("WebClient", 'App Started', 'The application has started');
   }
 }
 </pre>
@@ -182,6 +196,8 @@ To use the error handler and HTTP interceptors, modify your **app.module.ts** an
   ]
 </pre>
 
+Remember to import the references for <code>ErrorHandler</code> and <code>LoupeErrorHandler</code>.
+
 You can of course, create your own error handler to log uncaught errors to Loupe.
 
 ### Correlating requests
@@ -194,6 +210,8 @@ To allow the Loupe server component to correlate requests, you can include the L
     { provide: HTTP_INTERCEPTORS, useClass: LoupeHeaderHttpConfigInterceptor, multi: true }
   ]
 </pre>
+
+Remember to import the references for <code>HTTP_INTERCEPTORS</code> and <code>LoupeHeaderHttpConfigInterceptor</code>.
 
 ### Service Usage
 In other components you follow the same injection pattern, by using the Loupe service:

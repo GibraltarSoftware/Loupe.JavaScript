@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoupeErrorHandler } from '@gibraltarsoftware/loupe-angular';
-import { LoupeHeaderHttpConfigInterceptor } from "@gibraltarsoftware/loupe-angular";
+import { LoupeHeaderHttpConfigInterceptor } from '@gibraltarsoftware/loupe-angular';
 
 @NgModule({
   declarations: [
