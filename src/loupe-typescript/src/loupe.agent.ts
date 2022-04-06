@@ -685,12 +685,18 @@ export class LoupeAgent {
       return error;
     }
 
+    // stack may be a string, or an array, but needs to be the latter
+    let stack = error.stackTrace || error.stack || null;
+    if (stack && typeof stack === "string") {
+      stack = stack.split("\n");
+    }
+
     return new Exception(
       cause || '',
       error.columnNumber || null,
       error.lineNumber || null,
       error.message,
-      error.stackTrace || error.stack || null,
+      stack,
       this.window.location.href,
     );
   }
