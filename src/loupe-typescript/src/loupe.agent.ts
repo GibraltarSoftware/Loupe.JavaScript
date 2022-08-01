@@ -408,12 +408,15 @@ export class LoupeAgent {
     if (StackTrace) {
       try {
         return StackTrace.fromError(new Error(errorMessage)).then((stack: any) => {
-          return this.stripLoupeStackFrames(stack.reverse());
+          const notOurframes = this.stripLoupeStackFrames(stack.reverse());
+          const notOurframeMessages = notOurframes.map(f => f.toString());
+          return notOurframeMessages;
         });
       } catch (e) {
         // deliberately swallow; some browsers don't expose the stack property on the exception
       }
     }
+
     return Promise.resolve([]);
   }
 
@@ -685,12 +688,18 @@ export class LoupeAgent {
       return error;
     }
 
+    // stack may be a string, or an array, but needs to be the latter
+    let stack = error.stackTrace || error.stack || null;
+    if (stack && typeof stack === "string") {
+      stack = stack.split("\n");
+    }
+
     return new Exception(
       cause || '',
       error.columnNumber || null,
       error.lineNumber || null,
       error.message,
-      error.stackTrace || error.stack || null,
+      stack,
       this.window.location.href,
     );
   }

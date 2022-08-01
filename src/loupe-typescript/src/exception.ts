@@ -16,7 +16,7 @@ export class Exception {
     public column: number | null,
     public line: number | null,
     public message: string,
-    public stacktrace: any[],
+    public stackTrace: any[],
     public url: string,
   ) {}
 }
