@@ -45,7 +45,7 @@ export class LoupeService {
 import { LoupeService } from '../LoupeService/loupe.service';
 
 @Component({
-  selector: 'app-root', 
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -54,7 +54,7 @@ export class AppComponent {
   constructor(private readonly loupe: LoupeService) {
     loupe.loupe.setLogServer('https://myserver.com');
   }
-  
+
 }
 </pre>
 
@@ -84,6 +84,70 @@ import loupe  from "./LoupeService";
 
 4. Log some details:
 
+<pre>
+const counterObject = { name: "counter", value: this.state.currentCount };
+loupe.information(
+    "Angular", "Incrementing Counter", 'Counter is now {0}',
+    [this.state.currentCount], null, counterObject
+);
+</pre>
+
+### Installation in Javascript
+#### Using a Package Manager
+
+1. Install the agent:
+
+<pre>
+npm install @gibraltarsoftware/loupe-typescript
+</pre>
+
+2. Import the agent package:
+
+<pre>
+import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript';
+</pre>
+
+3. Create a new instance of the agent:
+
+<pre>
+const loupe = new LoupeAgent(window, document);
+</pre>
+
+4. Log some details:
+
+<pre>
+const counterObject = { name: "counter", value: this.state.currentCount };
+loupe.information(
+    "Angular", "Incrementing Counter", 'Counter is now {0}',
+    [this.state.currentCount], null, counterObject
+);
+</pre>
+
+#### Without a Package Manager
+If you are creating applications without a package manager, you will need to download/clone this project (loupe-typescript), build it, and use
+the built Javascript agent code directly.
+
+1. Build the project
+
+<pre>
+npm build
+</pre>
+
+The build generates a javascript source (see dist/loupe.typescript.js), which you can copy to your project folder.
+
+2. Import th the Javascript agent into your module code:
+
+<pre>
+import "/js/loupe.javascript.js";
+</pre>
+
+3. Create a new instance of the agent:
+
+<pre>
+const loupe = new exports["loupe-typescript"].LoupeAgent(window, document);
+</pre>
+
+4. Log some details:
 <pre>
 const counterObject = { name: "counter", value: this.state.currentCount };
 loupe.information(
@@ -154,7 +218,7 @@ loupe.error('Web', 'Error Occurred', 'An error occurred', null, err,
 
 The additional details parameter can be either a string or a JSON object.
 
-The agent will attempt to parse stack traces and source details from the error, but to 
+The agent will attempt to parse stack traces and source details from the error, but to
 add source information manually you can use the <code>MethodSourceInfo</code>:
 
 <pre>

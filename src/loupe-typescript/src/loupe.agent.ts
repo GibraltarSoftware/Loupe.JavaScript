@@ -408,12 +408,15 @@ export class LoupeAgent {
     if (StackTrace) {
       try {
         return StackTrace.fromError(new Error(errorMessage)).then((stack: any) => {
-          return this.stripLoupeStackFrames(stack.reverse());
+          const notOurframes = this.stripLoupeStackFrames(stack.reverse());
+          const notOurframeMessages = notOurframes.map(f => f.toString());
+          return notOurframeMessages;
         });
       } catch (e) {
         // deliberately swallow; some browsers don't expose the stack property on the exception
       }
     }
+
     return Promise.resolve([]);
   }
 
