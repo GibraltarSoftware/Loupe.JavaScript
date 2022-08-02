@@ -1,6 +1,6 @@
 {
   "name": "@gibraltarsoftware/loupe-angular",
-  "version": "12.0.4",
+  "version": "12.1.0",
   "description": "Loupe Agent for Angular",
   "keywords": [
     "Gibraltar",
@@ -22,7 +22,7 @@
   "peerDependencies": {
     "@angular/common": "^12.2.0",
     "@angular/core": "^12.2.0",
-    "@gibraltarsoftware/loupe-typescript": "^1.3.4"
+    "@gibraltarsoftware/loupe-typescript": "^1.4.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
