@@ -1,9 +1,10 @@
 # loupe-typescript
 **@gibraltarsoftware/loupe-typescript** is a Loupe Agent for web browser applications.
 
-The agent will hook into the <code>window.onerror</code> event to automatically log any uncaught JavaScript errors.
+The agent can optionally hook into the <code>window.onerror</code> event to automatically log any uncaught JavaScript errors.
 
-Use of the agent needs to be combined with a server component to correlate the actions your user performs client side with the corresponding server side processing, giving you a better insight into end-to-end functionality. See the [project readme](../README.md) for more details.
+Use of the agent needs to be combined with a server component to correlate the actions your user performs client side with the corresponding server side processing,
+giving you a better insight into end-to-end functionality. See the [project readme](../README.md) for more details.
 
 ## Installation
 You can install the module via **npm**:
@@ -14,7 +15,9 @@ npm install @gibraltarsoftware/loupe-typescript
 
 ### Installation in Angular
 
-While we receommend using [loupe-angular](../loupe-angular) for Angular applications as it wraps up additional functionality, such as auto-handling of uncaught exceptions and the addition of correlation IDs to your HTTP requests. You can of course use the basic agent. You'll want to use the agent throughout your application, so it needs to be globally available, and the simplest way to do this is to wrap it in a service.
+While we receommend using [loupe-angular](../loupe-angular) for Angular applications as it wraps up additional functionality, such as auto-handling of
+uncaught exceptions and the addition of correlation IDs to your HTTP requests. You can of course use the basic agent. You'll want to use the agent throughout
+your application, so it needs to be globally available, and the simplest way to do this is to wrap it in a service.
 
 1. Install the agent:
 
@@ -92,6 +95,16 @@ loupe.information(
 );
 </pre>
 
+### Installation in NextJS
+
+1. Install the agent:
+
+<pre>
+npm install @gibraltarsoftware/loupe-typescript
+</pre>
+
+2. TODO
+
 ### Installation in Javascript
 #### Using a Package Manager
 
@@ -135,16 +148,16 @@ npm build
 
 The build generates a javascript source (see dist/loupe.typescript.js), which you can copy to your project folder.
 
-2. Import th the Javascript agent into your module code:
+2. Import the Javascript agent into your module code:
 
 <pre>
-import "/js/loupe.javascript.js";
+var LoupeAgent = require("/js/loupe.typescript");
 </pre>
 
 3. Create a new instance of the agent:
 
 <pre>
-const loupe = new exports["loupe-typescript"].LoupeAgent(window, document);
+var loupe = new LoupeAgent['loupe-typescript'].LoupeAgent(window, document, platform);
 </pre>
 
 4. Log some details:
@@ -156,7 +169,39 @@ loupe.information(
 );
 </pre>
 
+## Creating the Agent
+Version 2 introduced a breaking change whereby the constructor arguments have changed. These are now:
+* <code>window</code>. Optional. The global Window object. If supplied, the agent hooks into the "onError" method to log uncaught exceptions.
+* <code>documen</code>. Optional. The global document object. If supplied, used to obtain document size for client platform details per log message, but only if platform details are also supplied.
+* <code>platform</code>. Optional. The client platform details (see interface <code>ILocalPlatform</code>). If supplied they will be attached to the logged client details.
+
+Prior versions included [platformjs](https://github.com/bestiejs/platform.js), which automatically retrieved details of the client (user agent, engine, os, etc). To allow the Loupe Agent to be used
+in browserless scenarios, this dependency has been removed, but you can still pass in these platform details, either constructing them yourself, or by using platform-js and passing in the appropriate
+structure. This is shown in the **loupe-angular** project.
+
+If you wish to supply platform details, then you can install <code>platform</code> and associated types from NPM:
+
+<pre>
+npm install platform
+npm install @types/platform
+</pre>
+
+You can then import platform and use the <code>clientPatform</code> as the third parameter on the constructor. Eg:
+
+<pre>
+const loupe = new LoupeAgent(window, window.document, clientPlatform as ILocalPlatform);
+</pre>
+
+If you don't wish to use platform-js, then you can just construct a platform object manually.
+
+## You Must Set The Server Location
+If you are not passing in the <code>window</code> object, you **must** set the origin of the log server, so that the agent knows where to send log messages.
+You can do this via the <code>setLogServer</code> method, which should be done as soon as the agent is created.
+If the server location is not specified, either directly from <code>setLogServer</code> or inferred from <code>window</code> then an error is thrown
+when attempting to log messages.
+
 ## API
+* constructor(window?: Window, document?: Document, clientPlatform?: ILocalPlatform) - creates a new instance of the agent.
 * critical(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?: * MethodSourceInfo | null) - write a categorized Crticial message to Loupe.
 * error(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?: * MethodSourceInfo | null) - write a categorized Error message to Loupe.
 * information(category: string, caption: string, description: string, parameters?: any[] | null, exception?: any | null, details?: any | null, methodSourceInfo?: MethodSourceInfo | null) - write a categorized Information message to Loupe.
@@ -183,7 +228,8 @@ The <code>critical</code>, <code>error</code>, <code>information</code>, <code>w
 
 ## Examples
 
-The first step to using Loupe is to create an instance of the agent, passing in the <code>window</code> and <code>document</code> objects:
+The first step to using Loupe is to create an instance of the agent, optionally passing in the <code>window</code> and <code>document</code> objects. If present, window will be used to hook into
+unhandled exceptions, and document will be used to get the page resolution. You can also optionally provide platform details (see the LocalPlatform interface) that will be logged along with requests; this can be manually created, or extracted from [platform-js](https://github.com/bestiejs/platform.js).
 
 <pre>
 const loupe = new LoupeAgent(window, document);
@@ -232,7 +278,6 @@ For me examples, see the [sample project](../loupe-typescript-demos).
 
 ## Dependencies
 * [stacktrace-js](https://www.npmjs.com/package/stacktrace-js) for stack trace handling for uncaught window errors.
-* [platform](https://www.npmjs.com/package/platform) for obtaining platform details fo the client
 
 ## License
 This module is licensed under ISC

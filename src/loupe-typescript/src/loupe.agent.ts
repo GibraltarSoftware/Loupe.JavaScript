@@ -1,10 +1,9 @@
-import * as clientPlatform from 'platform';
 import * as StackTrace from 'stacktrace-js';
 
-import { Exception } from './Exception';
+import { Exception } from './exception';
 import { Header } from './Header';
 import { ILocalPlatform } from './LocalPlatform';
-import { LocalStorageMessage } from './LocalStorageMessage';
+import { LocalStorageMessage } from './localStorageMessage';
 import { LogMessageSeverity } from './LogMessageSeverity';
 import { MethodSourceInfo } from './MethodSourceInfo';
 
@@ -26,8 +25,8 @@ export class LoupeAgent {
   private existingOnError!: OnErrorEventHandler | null;
   private sequenceNumber = 0;
 
-  private messageStorage: string[] = [];
-  private storageAvailable = this.storageSupported();
+  private messageStorage: LocalStorageMessage[] = [];
+  private storageAvailable: boolean = true;
   private storageFull = false;
   private corsOrigin: string | null = null;
   private globalKeyList: string[] = [];
@@ -35,14 +34,21 @@ export class LoupeAgent {
 
   /**
    * Creates a new instance of the Loupe logger
-   * @param window - The global Window object
-   * @param document - The global document object
+   * @param window - Optional. The global Window object. If supplied, the agent hooks into the "onError" method to log uncaught exceptions.
+   * @param document - Optional. The global document object. If supplied, used to obtain document size for client platform details, but only if platform is also supplied.
+   * @param platform - Optional. The client platform details. If supplied they will be attached to the logged client details.
    */
-  constructor(private readonly window: Window, private readonly document: Document) {
-    if (typeof this.window !== 'undefined' && typeof this.window.onerror !== 'undefined') {
+  constructor(
+    private readonly window?: Window | null,
+    private readonly document?: Document | null,
+    private readonly clientPlatform?: ILocalPlatform,
+  ) {
+    if (typeof this.window !== 'undefined' && typeof this.window?.onerror !== 'undefined') {
       this.existingOnError = this.window.onerror;
       this.setUpOnError(this.window);
     }
+
+    this.storageAvailable = this.storageSupported();
 
     this.setUpClientSessionId();
     this.setUpSequenceNumber();
@@ -200,28 +206,30 @@ export class LoupeAgent {
     );
   }
 
-  public recordException(
-    exception: any,
-    details?: any,
-    category?: string
-    ): void {
-      const caption = exception.caption || exception.name;
+  public recordException(exception: any, details?: any, category?: string): void {
+    const caption = exception.caption || exception.name;
 
-      if (!category) {
-        category = this.exceptionCategory;
-      }
+    if (!category) {
+      category = this.exceptionCategory;
+    }
 
-      if (exception.stack && typeof exception.stack === 'string') {
-        this.createStackFromMessage(exception.stack).then((stack: any[]) => {
-          exception.stack = stack;
-          this.write(LogMessageSeverity.error, category as string,
-            caption, exception.description, null, exception, details, null);
-        });
-
-      } else {
-        this.write(LogMessageSeverity.error, category,
-          caption, exception.description, null, exception, details, null);
-      }
+    if (exception.stack && typeof exception.stack === 'string') {
+      this.createStackFromMessage(exception.stack).then((stack: any[]) => {
+        exception.stack = stack;
+        this.write(
+          LogMessageSeverity.error,
+          category as string,
+          caption,
+          exception.description,
+          null,
+          exception,
+          details,
+          null,
+        );
+      });
+    } else {
+      this.write(LogMessageSeverity.error, category, caption, exception.description, null, exception, details, null);
+    }
   }
 
   /**
@@ -245,6 +253,9 @@ export class LoupeAgent {
     details?: any | null,
     methodSourceInfo?: MethodSourceInfo | null,
   ): void {
+    // check there's an origin set, so we can abort early, rather that wait for the sending
+    this.getOrigin();
+
     exception = this.sanitiseArgument(exception);
     details = this.sanitiseArgument(details);
 
@@ -338,6 +349,11 @@ export class LoupeAgent {
   }
 
   private storageSupported(): boolean {
+    // if no window, assume local storage is not available (ie we're in node)
+    if (!this.window) {
+      return false;
+    }
+
     const testValue = '_loupe_storage_test_';
 
     try {
@@ -364,7 +380,7 @@ export class LoupeAgent {
   private setUpOnError(window: Window): void {
     // TODO - abstract to a higher level "browser logger" ?
 
-    if (typeof this.window.onerror === 'undefined') {
+    if (typeof this.window?.onerror === 'undefined') {
       this.consoleLog('Gibraltar Loupe JavaScript Logger: No onerror event; errors cannot be logged to Loupe');
       return;
     }
@@ -384,16 +400,19 @@ export class LoupeAgent {
     };
   }
 
-  private getPlatform(): ILocalPlatform {
-    const platformDetails = clientPlatform as ILocalPlatform;
+  private getPlatform(): ILocalPlatform | null {
+    if (!this.clientPlatform) {
+      return null;
+    }
 
-    // TODO - document needs to be injected (or abstracted to a higher level)
-    platformDetails.size = {
-      height: this.window.innerHeight || this.document.body.clientHeight,
-      width: this.window.innerWidth || this.document.body.clientWidth,
-    };
+    if (this.document) {
+      this.clientPlatform.size = {
+        height: this.window?.innerHeight || this.document?.body.clientHeight,
+        width: this.window?.innerWidth || this.document?.body.clientWidth,
+      };
+    }
 
-    return platformDetails;
+    return this.clientPlatform;
   }
 
   private getStackTrace(error: any, errorMessage: any): Promise<any[]> {
@@ -409,7 +428,7 @@ export class LoupeAgent {
       try {
         return StackTrace.fromError(new Error(errorMessage)).then((stack: any) => {
           const notOurframes = this.stripLoupeStackFrames(stack.reverse());
-          const notOurframeMessages = notOurframes.map(f => f.toString());
+          const notOurframeMessages = notOurframes.map((f) => f.toString());
           return notOurframeMessages;
         });
       } catch (e) {
@@ -495,7 +514,7 @@ export class LoupeAgent {
     });
   }
 
-  private checkForStorageQuotaReached(e: any): boolean {
+  private isStorageQuotaReached(e: any): boolean {
     if (e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.name === 'QuotaExceededError') {
       this.storageFull = true;
       return true;
@@ -506,6 +525,12 @@ export class LoupeAgent {
 
   private setUpClientSessionId(): void {
     this.sessionId = this.generateUUID();
+
+    if (!this.storageAvailable) {
+      this.agentSessionId = this.generateUUID();
+      return;
+    }
+
     const currentClientSessionId = this.getClientSessionHeader();
 
     if (currentClientSessionId) {
@@ -521,11 +546,11 @@ export class LoupeAgent {
       try {
         sessionStorage.setItem(this.loupeAgentSessionIdKey, sessionIdToStore);
       } catch (e) {
-        if (this.checkForStorageQuotaReached(e)) {
+        if (this.isStorageQuotaReached(e)) {
           return;
         }
 
-        this.consoleLog('Unable to store clientSessionId in session storage. ' + e.message);
+        this.consoleLog('Unable to store clientSessionId in session storage. ' + (e as any).message);
       }
     }
   }
@@ -538,7 +563,7 @@ export class LoupeAgent {
         return clientSessionId;
       }
     } catch (e) {
-      this.consoleLog('Unable to retrieve clientSessionId number from session storage. ' + e.message);
+      this.consoleLog('Unable to retrieve clientSessionId number from session storage. ' + (e as any).message);
     }
 
     return null;
@@ -596,7 +621,7 @@ export class LoupeAgent {
           return 0;
         }
       } catch (e) {
-        this.consoleLog('Unable to retrieve sequence number from session storage. ' + e.message);
+        this.consoleLog('Unable to retrieve sequence number from session storage. ' + (e as any).message);
       }
     }
     // we return -1 to indicate cannot get sequence number
@@ -609,12 +634,12 @@ export class LoupeAgent {
       sessionStorage.setItem('LoupeSequenceNumber', sequenceNumber.toString());
       return true;
     } catch (e) {
-      if (this.checkForStorageQuotaReached(e)) {
-        this.consoleLog('Unable to store sequence number as storage quote reached: ' + e.message);
+      if (this.isStorageQuotaReached(e)) {
+        this.consoleLog('Unable to store sequence number as storage quote reached: ' + (e as any).message);
         return false;
       }
 
-      this.consoleLog('Unable to store sequence number: ' + e.message);
+      this.consoleLog('Unable to store sequence number: ' + (e as any).message);
 
       return false;
     }
@@ -660,24 +685,26 @@ export class LoupeAgent {
       try {
         localStorage.setItem('Loupe-message-' + this.generateUUID(), JSON.stringify(message));
       } catch (e) {
-        this.checkForStorageQuotaReached(e);
-        this.consoleLog('Error occured trying to add item to localStorage: ' + e.message);
-        this.messageStorage.push(JSON.stringify(message));
+        this.isStorageQuotaReached(e);
+        this.consoleLog('Error occured trying to add item to localStorage: ' + (e as any).message);
+        this.messageStorage.push(message);
       }
     } else {
       if (this.messageStorage.length === 5000) {
         this.messageStorage.shift();
       }
 
-      this.messageStorage.push(JSON.stringify(message));
+      this.messageStorage.push(message);
     }
   }
 
   private createExceptionFromError(error: any, cause: string | null): any {
+    const url = this.window ? this.window.location.href : '';
+
     // if error has simply been passed through as a string
     // log the best we could
     if (typeof error === 'string') {
-      return new Exception(cause || '', null, null, error, [], this.window.location.href);
+      return new Exception(cause || '', null, null, error, [], url);
     }
 
     // if the object has an Url property
@@ -690,18 +717,11 @@ export class LoupeAgent {
 
     // stack may be a string, or an array, but needs to be the latter
     let stack = error.stackTrace || error.stack || null;
-    if (stack && typeof stack === "string") {
-      stack = stack.split("\n");
+    if (stack && typeof stack === 'string') {
+      stack = stack.split('\n');
     }
 
-    return new Exception(
-      cause || '',
-      error.columnNumber || null,
-      error.lineNumber || null,
-      error.message,
-      stack,
-      this.window.location.href,
-    );
+    return new Exception(cause || '', error.columnNumber || null, error.lineNumber || null, error.message, stack, url);
   }
 
   private createTimeStamp(): string {
@@ -736,7 +756,7 @@ export class LoupeAgent {
 
   private generateUUID(): string {
     let d = Date.now();
-    const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       // tslint:disable-next-line: no-bitwise
       const r = (d + Math.random() * 16) % 16 | 0;
       d = Math.floor(d / 16);
@@ -834,13 +854,12 @@ export class LoupeAgent {
       return 1;
     }
 
-    // if the dates are the same then we use the sequence
-    // number
+    // if the dates are the same then we use the sequence number
     return a.message.sequence - b.message.sequence;
   }
 
   private getMessagesToSend() {
-    let messages: Array<string | null> = [];
+    let messages: (string | LocalStorageMessage | null)[] = [];
     const keys: string[] = [];
     let moreMessagesInStorage = false;
     let messagesFromStorage: any[] = [];
@@ -941,7 +960,7 @@ export class LoupeAgent {
       try {
         localStorage.removeItem(key);
       } catch (e) {
-        this.consoleLog('Unable to remove message from localStorage: ' + e.message);
+        this.consoleLog('Unable to remove message from localStorage: ' + (e as any).message);
       }
     }
   }
@@ -1009,15 +1028,15 @@ export class LoupeAgent {
       timeout = setTimeout(() => func(...args), waitFor);
     };
 
-    return (debounced as unknown) as (...args: Parameters<F>) => ReturnType<F>;
+    return debounced as unknown as (...args: Parameters<F>) => ReturnType<F>;
   };
 
-  private logMessageToServer(): boolean {
+  private logMessageToServer(): void {
     const { messages, keys, moreMessagesInStorage } = this.getMessagesToSend();
 
     // no messages so exit
     if (!messages.length) {
-      return false;
+      return;
     }
 
     const logMessage = {
@@ -1030,7 +1049,7 @@ export class LoupeAgent {
 
     const updateMessageInterval = this.debounce(() => this.setMessageInterval, 500);
 
-    return this.sendMessageToServer(logMessage, keys, moreMessagesInStorage, updateMessageInterval);
+    this.sendMessageToServer(logMessage, keys, moreMessagesInStorage, updateMessageInterval);
   }
 
   private afterRequest(callFailed: boolean, moreMessages: boolean, updateMessageInterval: any): void {
@@ -1050,53 +1069,69 @@ export class LoupeAgent {
     this.afterRequest(false, moreMessages, updateMessageInterval);
   }
 
-  private requestFailed(xhr: any, keys: string[], moreMessages: boolean, updateMessageInterval: any): void {
-    if (xhr.status === 0 || xhr.status === 401) {
+  private requestFailed(response: Response, keys: string[], moreMessages: boolean, updateMessageInterval: any): void {
+    if (response.status === 0 || response.status === 401) {
       this.removeKeysFromGlobalList(keys);
     } else {
       this.removeMessagesFromStorage(keys);
     }
 
-    this.consoleLog('Loupe JavaScript Logger: Failed to log to ' + this.window.location.origin + '/loupe/log');
-    this.consoleLog('  Status: ' + xhr.status + ': ' + xhr.statusText);
+    this.consoleLog('Loupe JavaScript Logger: Failed to log to "' + this.window?.location?.origin + '/loupe/log"');
+    this.consoleLog('  Status: ' + response.status + ': ' + response.statusText);
 
     this.afterRequest(true, moreMessages, updateMessageInterval);
   }
 
-  private sendMessageToServer(
-    logMessage: any,
-    keys: string[],
-    moreMessages: boolean,
-    updateMessageInterval: any,
-  ): boolean {
-    try {
-      let origin = this.corsOrigin || this.window.location.origin;
+  private getOrigin(): string {
+    let origin = this.corsOrigin || this.window?.location?.origin;
+
+    if (origin) {
       origin = this.stripTrailingSlash(origin);
+    } else {
+      throw new Error('Loupe JavaScript Logger: No origin found. Check you have called setLogServer');
+    }
 
-      const xhr = this.createCORSRequest(origin + '/loupe/log');
+    return origin;
+  }
+  private sendMessageToServer(logMessage: any, keys: string[], moreMessages: boolean, updateMessageInterval: any) {
+    try {
+      const origin = this.getOrigin();
 
-      if (!xhr) {
-        this.consoleLog('Loupe JavaScript Logger: No XMLHttpRequest; error cannot be logged to Loupe');
-        return false;
-      }
+      // create the headers
+      const headers = new Headers({
+        'Content-type': 'application/json',
+      });
 
-      // consoleLog(logMessage);
+      // add the loupe agent and session headers
+      headers.append(this.loupeAgentSessionIdHeader, this.agentSessionId);
+      headers.append(this.loupeSessionIdHeader, this.sessionId);
 
-      xhr.onreadystatechange = () => {
-        if (xhr && xhr.readyState === 4) {
-          if (xhr.status >= 200 && xhr.status <= 204) {
+      // add any custom headers
+      this.headers.forEach((header: Header) => {
+        headers.append(header.name, header.value);
+      });
+
+      const logDestination = `${origin}/loupe/log`;
+      fetch(logDestination, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers,
+        body: JSON.stringify(logMessage),
+      }).then(
+        (response) => {
+          if (response.status >= 200 && response.status <= 204) {
             this.requestSucceeded(keys, moreMessages, updateMessageInterval);
           } else {
-            this.requestFailed(xhr, keys, moreMessages, updateMessageInterval);
+            this.requestFailed(response, keys, moreMessages, updateMessageInterval);
           }
-        }
-      };
-
-      xhr.send(JSON.stringify(logMessage));
-      return true;
+        },
+        (e) => {
+          this.consoleLog('Loupe JavaScript Logger: Exception while attempting to log', e);
+        },
+      );
     } catch (e) {
-      this.consoleLog('Loupe JavaScript Logger: Exception while attempting to log');
-      return false;
+      this.consoleLog('Loupe JavaScript Logger: Exception while attempting to log', e);
     }
   }
 
@@ -1104,39 +1139,10 @@ export class LoupeAgent {
     return origin.replace(/\/$/, '');
   }
 
-  private createCORSRequest(url: string): XMLHttpRequest | null {
-    if (typeof XMLHttpRequest === 'undefined') {
-      return null;
-    }
-
-    const xhr = new XMLHttpRequest();
-
-    if ('withCredentials' in xhr) {
-      // Check if the XMLHttpRequest object has a "withCredentials" property.
-      // "withCredentials" only exists on XMLHTTPRequest2 objects.
-      xhr.open('POST', url, true);
-      xhr.setRequestHeader('Content-type', 'application/json');
-
-      // add the loupe agent and session headers
-      xhr.setRequestHeader(this.loupeAgentSessionIdHeader, this.agentSessionId);
-      xhr.setRequestHeader(this.loupeSessionIdHeader, this.sessionId);
-
-      // add any custom headers
-      this.headers.forEach((header: Header) => {
-        xhr.setRequestHeader(header.name, header.value);
-      });
-    } else {
-      // Otherwise, CORS is not supported by the browser.
-      return null;
-    }
-
-    return xhr;
-  }
-
-  private consoleLog(msg: any): void {
+  private consoleLog(msg: any, args?: any): void {
     // tslint:disable: no-console
     if (console && typeof console.log === 'function') {
-      console.log(msg);
+      console.log(msg, args || '');
     }
     // tslint:enable: no-console
   }

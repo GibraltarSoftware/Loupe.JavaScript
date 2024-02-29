@@ -1,7 +1,7 @@
 import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript';
 
 const loupe = new LoupeAgent(window, document);
-loupe.setLogServer('https://localhost:44325/');
+loupe.setLogServer('http://localhost:58080/');
 
 const someObject = { name: "test", code: 123, nestedObj: { a: 1} };
 loupe.verbose('Javascript', 'verbose caption', 'verbose description', null, null, someObject, null);

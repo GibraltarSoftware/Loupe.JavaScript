@@ -1,7 +1,7 @@
-export { Exception } from './Exception';
+export { Exception } from './exception';
 export { Header } from './Header';
 export { ILocalPlatform } from './LocalPlatform';
-export { LocalStorageMessage } from './LocalStorageMessage';
+export { LocalStorageMessage } from './localStorageMessage';
 export { LogMessageSeverity } from './LogMessageSeverity';
-export { LoupeAgent } from './Loupe.Agent';
+export { LoupeAgent } from './loupe.agent';
 export { MethodSourceInfo } from './MethodSourceInfo';

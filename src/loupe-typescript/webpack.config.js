@@ -1,6 +1,7 @@
-const path = require('path');module.exports = {
+const path = require('path');
+module.exports = {
     entry: './src/loupe.agent.ts',
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -14,13 +15,14 @@ const path = require('path');module.exports = {
         ],
     },
     resolve: {
-        extensions: [ '.tsx', '.ts', '.js' ],
+        extensions: [ '.tsx', '.ts', '.js' ]
     },
     output: {
         filename: 'loupe.typescript.js',
         path: path.resolve(__dirname, 'dist'),
         library: "loupe-typescript",
         libraryTarget: "commonjs",
-        globalObject: 'this' 
+        globalObject: 'this'
     },
+    mode: 'production'
 };
