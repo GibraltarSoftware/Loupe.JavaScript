@@ -9,5 +9,10 @@ export class MethodSourceInfo {
    * @param line - Optional. The line number
    * @param column - Optional. The column number
    */
-  constructor(public file: string, public method: string, public line?: number, public column?: number) {}
+  constructor(
+    public file: string,
+    public method: string,
+    public line?: number,
+    public column?: number,
+  ) {}
 }

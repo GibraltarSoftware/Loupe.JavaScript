@@ -6,13 +6,12 @@ export interface ILocalPlatform {
   /* Custom properties */
 
   /**
-   * The screen size
+   * The screen size, overwritten for each log message, obtained from the browser document object.
    */
   size: {
     width: number;
     height: number;
   };
-
 
   /* Platform properties */
 
@@ -84,7 +83,6 @@ export interface ILocalPlatform {
    */
   toString(): string;
 }
-
 
 // tslint:disable-next-line: interface-name
 export interface OperatingSystem {
