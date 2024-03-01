@@ -103,7 +103,23 @@ loupe.information(
 npm install @gibraltarsoftware/loupe-typescript
 </pre>
 
-2. TODO
+2. Create a service to create the agent:
+
+<pre>
+import { LoupeAgent } from '@gibraltarsoftware/loupe-typescript';
+
+var loupe = new LoupeAgent();
+loupe.sessionId = 123;
+loupe.setLogServer("htpp://localhost:3001");
+
+export default loupe
+</pre>
+
+3. Log some details:
+
+<pre>
+loupe.information("Home Page", "Home Sample Log");
+</pre>
 
 ### Installation in Javascript
 #### Using a Package Manager
@@ -199,6 +215,22 @@ If you are not passing in the <code>window</code> object, you **must** set the o
 You can do this via the <code>setLogServer</code> method, which should be done as soon as the agent is created.
 If the server location is not specified, either directly from <code>setLogServer</code> or inferred from <code>window</code> then an error is thrown
 when attempting to log messages.
+
+<pre>
+  loupe.setLogServer("https://my-api.mycompany.com");
+</pre>
+
+## CORS and Credentials
+When sending log messages to your API, you may need to include credentials. The <code>setLogServer</code> has an optional parameter that allows
+you to set the request credentials. For example:
+
+<pre>
+  loupe.setLogServer("https://my-api.mycompany.com", "same-origin");
+</pre>
+
+This would limit credentials to be from the same origina as the web application. Values are taken from the <code>RequestCredentials</code>, and
+can be "omit", "same-origin", or "include". The default for the Loupe Agent is "include".
+See [Request: credentials property](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials) for more details.
 
 ## API
 * constructor(window?: Window, document?: Document, clientPlatform?: ILocalPlatform) - creates a new instance of the agent.

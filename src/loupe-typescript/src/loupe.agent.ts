@@ -29,6 +29,7 @@ export class LoupeAgent {
   private storageAvailable: boolean = true;
   private storageFull = false;
   private corsOrigin: string | null = null;
+  private credentialsType: RequestCredentials | undefined;
   private globalKeyList: string[] = [];
   private headers: Header[] = [];
 
@@ -295,9 +296,12 @@ export class LoupeAgent {
   /**
    * Sets the server URI for logging
    * @param value The base URI hosting the server logging component
+   * @param {RequestCredentials} [credentialsType-'include'] Optional. The type of credentials to send with the request. The default is 'include'.
+   * see https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials for more details.
    */
-  public setLogServer(value: string | null): void {
+  public setLogServer(value: string | null, credentialsType: RequestCredentials = 'include'): void {
     this.corsOrigin = value;
+    this.credentialsType = credentialsType;
   }
 
   /**
@@ -1115,7 +1119,7 @@ export class LoupeAgent {
       fetch(logDestination, {
         method: 'POST',
         mode: 'cors',
-        credentials: 'include',
+        credentials: this.credentialsType,
         headers,
         body: JSON.stringify(logMessage),
       }).then(
